@@ -11,7 +11,7 @@ From the [documents] provided:
 
   Word (Total Occurrences)|Documents|Sentences containing the word
   ------------------------|---------|-----------------------------
-  Philosophy (42) | x,y,z | I don't have time for **philosophy**\n\n**Surely this was a touch of fine philosophy;** though no doubt he had never heard there was such a thing as that.\n\nStill, her pay-as-you-go **philosophy** implies it.
+  Philosophy (42) | x,y,z | I don't have time for **philosophy**<br /><br />**Surely this was a touch of fine philosophy;** though no doubt he had never heard there was such a thing as that.<br /><br />Still, her pay-as-you-go **philosophy** implies it.
   ... | ... | ...
 
 ## Personal Aims
