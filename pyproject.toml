@@ -1,15 +1,41 @@
 [tool.poetry]
 name = "python_homework_nlp"
 version = "0.1.0"
-description = ""
+description = "Python homework exercise to pull out words of interest from text files via NLP."
+readme = "README.md"
 authors = ["Craig Astill <craig.astill@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 
 [tool.poetry.dev-dependencies]
+black = "*"
+flake8 = "*"
+jedi-language-server = "*"
+mypy = "*"
+pycodestyle = "*"
 pytest = "^5.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 82
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | build
+    | dist
+    | migrations     # exclude django generated folders.
+  )/
+  | version.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''
