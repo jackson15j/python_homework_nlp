@@ -36,6 +36,13 @@ From the [documents] provided:
           vs using [PEP-517] config, non-OS-agnostic lock files and dependency
           graphs breaking easily.
 
+## Design
+
+[PlantUml] design to solve the above problem (See: [initial design sketch] in
+[docs/] for my pre-[NLTK] investigation):
+
+![PlantUml Design][PlantUml Design]
+
 
 
 [documents]: test_docs/
@@ -46,3 +53,8 @@ From the [documents] provided:
 [PDM]: https://pdm.fming.dev
 [PEP-517]: https://www.python.org/dev/peps/pep-0517/
 [Pipenv]: https://pipenv.pypa.io/en/latest/
+
+[PlantUml]: https://plantuml.com
+[PlantUml Design]: http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jackson15j/python_homework_nlp/main/docs/design.plantuml
+[docs/]: docs/
+[initial design sketch]: docs/initial_design_sketch_before_investigating_nltk.jpg

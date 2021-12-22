@@ -1,0 +1,80 @@
+@startuml design
+title NLP Homework Design
+
+!pragma useNewPackage
+set separator .
+
+
+package App {
+        component CliParser
+        component FileReader
+        package NlpParser {
+                component Normaliser
+                component Counter
+        }
+        package Renderers {
+                component CsvRenderer
+                file ar as "Additional Renderers" #line.dashed {
+                        component JsonRenderer
+                        component HtmlRenderer
+                }
+        }
+}
+
+CliParser -right-> FileReader
+FileReader --> Normaliser
+Normaliser -right-> Counter
+Counter --> CsvRenderer
+Counter --> HtmlRenderer
+Counter --> JsonRenderer
+
+
+note left of CliParser
+        Input:
+
+        * ``-d,--dir`` - Default: ``test_docs/``.
+        * ``-o,--output`` - Default: CSV.
+end note
+
+note left of FileReader
+        Input:
+
+        * Folder of text files.
+
+        Output JSON:
+
+        * ``{<file>: <content>, ...}``
+end note
+
+note left of Normaliser
+        Function for each step:
+
+        - Split file on sentences. eg. ``{<file>: [<sentence>, ...]}``
+        - Lowercase while parsing.
+        - Remove pluralisation (de-dup.).
+        - Expand contractions.
+        - Remove *"stop"* words
+end note
+
+note left of Counter
+        Count of each unique word with file/sentence recorded.
+end note
+
+note left of CsvRenderer
+        Input JSON:
+        ```
+        {
+            <word>: {
+                "count": <int>,
+                "matches": {
+                    <document>: [<sentence>, ...],
+                }
+            },
+        }
+        ```
+
+        Ussage:
+
+        * ``docs_for_word = json_result[word][matches].keys()``
+end note
+@enduml
