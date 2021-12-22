@@ -55,6 +55,6 @@ From the [documents] provided:
 [Pipenv]: https://pipenv.pypa.io/en/latest/
 
 [PlantUml]: https://plantuml.com
-[PlantUml Design]: http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jackson15j/python_homework_nlp/feature/design/docs/design.plantuml
+[PlantUml Design]: http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jackson15j/python_homework_nlp/main/docs/design.plantuml
 [docs/]: docs/
 [initial design sketch]: docs/initial_design_sketch_before_investigating_nltk.jpg
