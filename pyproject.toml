@@ -15,6 +15,8 @@ jedi-language-server = "*"
 mypy = "*"
 pycodestyle = "*"
 pytest = "^5.2"
+pytest-cov = "*"
+pytest-html = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -39,3 +41,22 @@ exclude = '''
                      # the root of the project
 )
 '''
+
+
+[tool.pytest.ini_options]
+# Directories that are not visited by pytest collector:
+norecursedirs = [
+  "*.egg",
+  ".eggs",
+  "dist",
+  "build"
+]
+junit_suite_name = "tests"
+junit_logging = "all"
+junit_family = "xunit2"
+python_files = [
+    "test_*.py",
+    "*_test.py",
+    "tests.py"
+]
+addopts = "-ra --durations=10 --junitxml=build/test-reports/py_unittests.xml --html=build/test-reports/py_unittests.html --self-contained-html"
