@@ -17,6 +17,15 @@ pycodestyle = "*"
 pytest = "^5.2"
 pytest-cov = "*"
 pytest-html = "*"
+# TODO: run checkers.
+# TODO: add poetry steps to build a wheel.
+# TODO: add `tox` for multiple python version testing.
+# TODO: add CI that runs checkers.
+# TODO: add CI that runs tests.
+# TODO: add CI that builds the wheel.
+# TODO: add CI that publishes the wheel to Github Releases on tags.
+# TODO: pull in `setuptools_scm` or just manually version for now ??
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
