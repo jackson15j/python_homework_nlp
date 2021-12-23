@@ -5,8 +5,10 @@
 name: Python application
 
 on:
+  # NOTE: Opening up to build against all branches, due to doing merges
+  # locally. Typically I would stick with PR-building + Authoritative
+  # Branch/Tag building.
   push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
   # Allows you to run this workflow manually from the Actions tab
