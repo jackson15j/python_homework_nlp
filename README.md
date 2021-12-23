@@ -45,6 +45,8 @@ From the [documents] provided:
 
 ## Contribute
 
+* Pre-req.: `curl -sSL https://install.python-poetry.org | python3 -` [Poetry:
+  install].
 * Install dependencies: `poetry install`.
 * Run tests: `poetry run pytest`.
 * Build Wheel: `poetry build`.
@@ -60,6 +62,7 @@ stage).
 [NLTK]: https://www.nltk.org/
 [Boost Spirit]: https://www.boost.org/doc/libs/1_78_0/libs/spirit/doc/html/index.html
 [Poetry]: https://python-poetry.org
+[Poetry: install]: https://python-poetry.org/docs/master/#installation
 [PDM]: https://pdm.fming.dev
 [PEP-517]: https://www.python.org/dev/peps/pep-0517/
 [Pipenv]: https://pipenv.pypa.io/en/latest/
