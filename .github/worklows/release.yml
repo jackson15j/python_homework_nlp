@@ -1,0 +1,26 @@
+name: Release
+
+on:
+  push:
+    tags:
+    - '*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.10"
+    - name: Pre-Req. - Install poetry
+      run: curl -sSL https://install.python-poetry.org | python3 -
+    - name: Deps - Install dependencies
+      run: poetry install
+    - name: Build - Python Package
+      run: poetry build
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "dist/*.*"
+        token: ${{ secrets.GITHUB_TOKEN }}
