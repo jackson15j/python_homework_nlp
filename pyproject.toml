@@ -1,0 +1,85 @@
+[tool.poetry]
+name = "python_homework_nlp"
+version = "0.1.0"
+description = "Python homework exercise to pull out words of interest from text files via NLP."
+readme = "README.md"
+lincense = "GPL-3.0-only"
+authors = ["Craig Astill <craig.astill@gmail.com>"]
+homepage = "https://github.com/jackson15j/python_homework_nlp"
+repository = "https://github.com/jackson15j/python_homework_nlp"
+keywords = ["nlp"]
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Text Processing :: Linguistic",
+    "",
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+black = "*"
+flake8 = "*"
+jedi-language-server = "*"
+mypy = "*"
+pycodestyle = "*"
+pytest = "^5.2"
+pytest-cov = "*"
+pytest-html = "*"
+# TODO: run checkers.
+# TODO: add poetry steps to build a wheel.
+# TODO: add `tox` for multiple python version testing.
+# TODO: add CI that runs checkers.
+# TODO: add CI that runs tests.
+# TODO: add CI that builds the wheel.
+# TODO: add CI that publishes the wheel to Github Releases on tags.
+# TODO: pull in `setuptools_scm` or just manually version for now ??
+# Compare against: https://python-poetry.org/docs/cli/#version !!
+# TODO: Add entrypoint + `README.md` note: https://python-poetry.org/docs/cli/#run
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 82
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | build
+    | dist
+    | migrations     # exclude django generated folders.
+  )/
+  | version.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''
+
+
+[tool.pytest.ini_options]
+# Directories that are not visited by pytest collector:
+norecursedirs = [
+  "*.egg",
+  ".eggs",
+  "dist",
+  "build"
+]
+junit_suite_name = "tests"
+junit_logging = "all"
+junit_family = "xunit2"
+python_files = [
+    "test_*.py",
+    "*_test.py",
+    "tests.py"
+]
+addopts = "-ra --durations=10 --junitxml=build/test-reports/py_unittests.xml --html=build/test-reports/py_unittests.html --self-contained-html"

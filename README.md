@@ -43,6 +43,16 @@ From the [documents] provided:
 
 ![PlantUml Design][PlantUml Design]
 
+## Contribute
+
+* Install dependencies: `poetry install`.
+* Run tests: `poetry run pytest`.
+* Build Wheel: `poetry build`.
+
+**NOTE:** Explicitly not publishing this package to PyPI!! I don't want to
+bloat the PyPI namespace with a point-in-time homework piece that wont have
+on-going maintenance/support (beyond the initial learning/puzzle-solving
+stage).
 
 
 [documents]: test_docs/
