@@ -43,6 +43,14 @@ From the [documents] provided:
 
 ![PlantUml Design][PlantUml Design]
 
+## Usage
+
+Either:
+
+* `pip install <package.whl>` into a local virtualenv (See _"Releases"_ section
+  for published wheels) and then run the entrypoint: `<TODO: add entrypoint>`.
+* Follow the steps in: [Contribute](#contribute) section.
+
 ## Contribute
 
 * Pre-req.: `curl -sSL https://install.python-poetry.org | python3 -` [Poetry:
@@ -50,6 +58,7 @@ From the [documents] provided:
 * Install dependencies: `poetry install`.
 * Run tests: `poetry run pytest`.
 * Build Wheel: `poetry build`.
+* Run app: `<TODO: add entrypoint>`.
 
 **NOTE:** Explicitly not publishing this package to PyPI!! I don't want to
 bloat the PyPI namespace with a point-in-time homework piece that wont have
