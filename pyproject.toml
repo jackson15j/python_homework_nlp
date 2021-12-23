@@ -3,7 +3,20 @@ name = "python_homework_nlp"
 version = "0.1.0"
 description = "Python homework exercise to pull out words of interest from text files via NLP."
 readme = "README.md"
+lincense = "GPL-3.0-only"
 authors = ["Craig Astill <craig.astill@gmail.com>"]
+homepage = "https://github.com/jackson15j/python_homework_nlp"
+repository = "https://github.com/jackson15j/python_homework_nlp"
+keywords = ["nlp"]
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Text Processing :: Linguistic",
+    "",
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -25,7 +38,8 @@ pytest-html = "*"
 # TODO: add CI that builds the wheel.
 # TODO: add CI that publishes the wheel to Github Releases on tags.
 # TODO: pull in `setuptools_scm` or just manually version for now ??
-
+# Compare against: https://python-poetry.org/docs/cli/#version !!
+# TODO: Add entrypoint + `README.md` note: https://python-poetry.org/docs/cli/#run
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
