@@ -1,5 +1,8 @@
 # python_homework_nlp
 
+[![Python application](https://github.com/jackson15j/python_homework_nlp/actions/workflows/python_app.yml/badge.svg)](https://github.com/jackson15j/python_homework_nlp/actions/workflows/python_app.yml)
+[![Release](https://github.com/jackson15j/python_homework_nlp/actions/workflows/release.yml/badge.svg)](https://github.com/jackson15j/python_homework_nlp/actions/workflows/release.yml)
+
 Python homework exercise to pull out words of interest from text files via NLP.
 
 ## Exercise

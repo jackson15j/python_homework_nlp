@@ -27,7 +27,7 @@ flake8 = "*"
 jedi-language-server = "*"
 mypy = "*"
 pycodestyle = "*"
-pytest = "^5.2"
+pytest = "*"
 pytest-cov = "*"
 pytest-html = "*"
 # TODO: run checkers.
