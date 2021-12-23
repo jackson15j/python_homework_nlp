@@ -21,17 +21,17 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: "3.10"
-    - name: Pre-Req.: Install poetry
+    - name: Pre-Req. - Install poetry
       run: curl -sSL https://install.python-poetry.org | python3 -
-    - name: Deps: Install dependencies
+    - name: Deps - Install dependencies
       run: poetry install
-    - name: Checkers: pycodestyle
+    - name: Checkers - pycodestyle
       run: poetry run pycodestyle .
-    - name: Checkers: flake8
+    - name: Checkers - flake8
       run: poetry run flake8 .
-    - name: Checkers: black
+    - name: Checkers - black
       run: poetry run black . --check --diff
-    - name: Checkers: mypy
+    - name: Checkers - mypy
       run: poetry run mypy .
-    - name: Tests: pytest
+    - name: Tests - pytest
       run: poetry run pytest
