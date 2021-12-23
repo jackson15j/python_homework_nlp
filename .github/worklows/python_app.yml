@@ -1,0 +1,39 @@
+# This workflow will install Python dependencies, run tests and lint with a
+# single version of Python For more information see:
+# https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python application
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.10"
+    - name: Pre-Req. - Install poetry
+      run: curl -sSL https://install.python-poetry.org | python3 -
+    - name: Deps - Install dependencies
+      run: poetry install
+    - name: Checkers - pycodestyle
+      run: poetry run pycodestyle .
+    - name: Checkers - flake8
+      run: poetry run flake8 .
+    - name: Checkers - black
+      run: poetry run black . --check --diff
+    - name: Checkers - mypy
+      run: poetry run mypy .
+    - name: Tests - pytest
+      run: poetry run pytest
