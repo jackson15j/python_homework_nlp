@@ -1,32 +1,33 @@
 import logging
 
 from nltk import download
-from nltk import word_tokenize
+from nltk import sent_tokenize, word_tokenize
 from nltk.stem.snowball import SnowballStemmer
 
 log = logging.getLogger(__name__)
 
 
-def tokenize(string: str) -> str:
+def tokenize(string: str) -> list:
     # Requires: `nltk.download('punkt')`
     try:
-        return word_tokenize(string)
+        sentences = sent_tokenize(string)
     except LookupError as e:
         # TOOD: switch to upfront download/gathering of NLTK Data, to simplify
         # these functions.
         log.debug("Tokenize exception: %r", e)
         download("punkt")
-        return word_tokenize(string)
+        sentences = sent_tokenize(string)
+
+    return [word_tokenize(sentence) for sentence in sentences]
 
 
-def get_stems(string: str) -> list:
+def get_stems(tokens: list) -> list:
     """Parses the string and returns a string with all of the _"stemmed"_
     versions of the words. Stemming is process of reducing words to their
     base/root/stem version. eg. fishing, fished, and fisher to the stem fish.
     """
     # See: https://www.nltk.org/howto/stem.html#unit-tests-for-snowball-stemmer
     # Requires: `nltk.download("stopwords")`
-    _tokens = tokenize(string)
     # TODO: Create `stemmer` once.
     try:
         stemmer = SnowballStemmer("english", ignore_stopwords=True)
@@ -35,4 +36,4 @@ def get_stems(string: str) -> list:
         download("stopwords")
         stemmer = SnowballStemmer("english", ignore_stopwords=True)
 
-    return [stemmer.stem(x) for x in _tokens]
+    return [stemmer.stem(x) for x in tokens]

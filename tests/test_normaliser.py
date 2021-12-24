@@ -1,29 +1,38 @@
+import pytest
 from python_homework_nlp.normaliser import get_stems, tokenize
 
 
 class TestNormaliser:
-    def test_get_stems(self):
-        actual = "look looking looked"
-        exp = ["look"] * 3
+    @pytest.mark.parametrize(
+        "actual,exp", ((["look", "looking", "looked"], ["look"] * 3),)
+    )
+    def test_get_stems(self, actual, exp):
         assert get_stems(actual) == exp
 
-    def test_tokenize(self):
-        actual = (
-            "At eight o'clock on Thursday morning Arthur didn't feel very good."
-        )
-        exp = [
-            "At",
-            "eight",
-            "o'clock",
-            "on",
-            "Thursday",
-            "morning",
-            "Arthur",
-            "did",
-            "n't",
-            "feel",
-            "very",
-            "good",
-            ".",
-        ]
+    @pytest.mark.parametrize(
+        "actual,exp",
+        (
+            (
+                "Arthur didn't feel good at eight o'clock.",
+                [
+                    [
+                        "Arthur",
+                        "did",
+                        "n't",
+                        "feel",
+                        "good",
+                        "at",
+                        "eight",
+                        "o'clock",
+                        ".",
+                    ],
+                ],
+            ),
+            (
+                "First sentence. Second sentence.",
+                [["First", "sentence", "."], ["Second", "sentence", "."]],
+            ),
+        ),
+    )
+    def test_tokenize(self, actual, exp):
         assert tokenize(actual) == exp
