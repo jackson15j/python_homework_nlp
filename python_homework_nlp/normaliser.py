@@ -1,24 +1,22 @@
+import logging
+
+from nltk import download
 from nltk import word_tokenize
 from nltk.stem.snowball import SnowballStemmer
+
+log = logging.getLogger(__name__)
 
 
 def tokenize(string: str) -> str:
     # Requires: `nltk.download('punkt')`
-    # TODO: gracefully handle:
-    #     raise LookupError(resource_not_found)
-    #     LookupError:
-    #     **********************************************************************
-    #       Resource punkt not found.
-    #       Please use the NLTK Downloader to obtain the resource:
-    #
-    #       >>> import nltk
-    #       >>> nltk.download('punkt')
-    #
-    #       For more information see: https://www.nltk.org/data.html
-    #
-    #       Attempted to load tokenizers/punkt/PY3/english.pickle
-
-    return word_tokenize(string)
+    try:
+        return word_tokenize(string)
+    except LookupError as e:
+        # TOOD: switch to upfront download/gathering of NLTK Data, to simplify
+        # these functions.
+        log.debug("Tokenize exception: %r", e)
+        download("punkt")
+        return word_tokenize(string)
 
 
 def get_stems(string: str) -> list:
@@ -30,5 +28,11 @@ def get_stems(string: str) -> list:
     # Requires: `nltk.download("stopwords")`
     _tokens = tokenize(string)
     # TODO: Create `stemmer` once.
-    stemmer = SnowballStemmer("english", ignore_stopwords=True)
+    try:
+        stemmer = SnowballStemmer("english", ignore_stopwords=True)
+    except LookupError as e:
+        log.debug("Stem exception: %r", e)
+        download("stopwords")
+        stemmer = SnowballStemmer("english", ignore_stopwords=True)
+
     return [stemmer.stem(x) for x in _tokens]
