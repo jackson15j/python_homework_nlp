@@ -1,5 +1,11 @@
 import pytest
-from python_homework_nlp.normaliser import get_stems, tokenize
+from nltk.corpus import stopwords
+from python_homework_nlp.normaliser import (
+    get_stems,
+    get_tokens_without_stopwords,
+    tokenize,
+    STOPWORDS_EN,
+)
 
 
 class TestNormaliser:
@@ -8,6 +14,32 @@ class TestNormaliser:
     )
     def test_get_stems(self, actual, exp):
         assert get_stems(actual) == exp
+
+    @pytest.mark.parametrize(
+        "actual,exp,stop_words",
+        (
+            (
+                ["This", "is", "a", "sentence", "with", "stopwords", "."],
+                ["This", "sentence", "stopwords", "."],
+                stopwords.words("english"),
+            ),
+            (
+                ["This", "is", "a", "sentence", "with", "stopwords", "."],
+                ["This", "sentence", "stopwords"],
+                None,
+            ),
+            (
+                ["This", "is", "a", "sentence", "with", "stopwords", "."],
+                ["This", "sentence", "stopwords"],
+                STOPWORDS_EN,
+            ),
+        ),
+    )
+    def test_get_tokens_without_stopwords(self, actual, exp, stop_words):
+        if stop_words:
+            assert get_tokens_without_stopwords(actual, stop_words) == exp
+        else:
+            assert get_tokens_without_stopwords(actual) == exp
 
     @pytest.mark.parametrize(
         "actual,exp",

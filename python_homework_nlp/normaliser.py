@@ -1,10 +1,20 @@
 import logging
+import string
 
 from nltk import download
 from nltk import sent_tokenize, word_tokenize
+from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 
 log = logging.getLogger(__name__)
+STOPWORDS_EN = stopwords.words("english")
+STOPWORDS_EN.extend(string.punctuation)
+
+# TODO: class for NLP workflow:
+#
+# 1. Tokenize sentences/words.
+# 2. Filter out _"stop words"_.
+# 3. Stem words.
 
 
 def tokenize(string: str) -> list:
@@ -19,6 +29,13 @@ def tokenize(string: str) -> list:
         sentences = sent_tokenize(string)
 
     return [word_tokenize(sentence) for sentence in sentences]
+
+
+def get_tokens_without_stopwords(
+    tokens: list, stop_words: list = STOPWORDS_EN
+) -> list:
+    """Gets a new list of tokens with all stopwords removed."""
+    return [x for x in tokens if x not in stop_words]
 
 
 def get_stems(tokens: list) -> list:
