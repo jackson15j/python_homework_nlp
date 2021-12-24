@@ -72,6 +72,16 @@ exclude = '''
 '''
 
 
+[[tool.mypy.overrides]]
+# NOTE: The `nltk` module doesn't appear to maintain an internal or separate
+# PEP-561 type file. See:
+#
+# https://mypy.readthedocs.io/en/stable/running_mypy.html#missing-library-stubs-or-py-typed-marker
+# https://mypy.readthedocs.io/en/stable/config_file.html?highlight=pyproject.toml#using-a-pyproject-toml-file
+module = "nltk.*"
+ignore_missing_imports = true
+
+
 [tool.pytest.ini_options]
 # Directories that are not visited by pytest collector:
 norecursedirs = [
