@@ -103,13 +103,14 @@ def _get_matches_by_word(word: str, original_sentences: list) -> list:
     return [x for x in original_sentences if word in x.lower()]
 
 
-def counter(orig: dict) -> dict:
+def counter(orig: dict, most_common: int = None) -> dict:
     """Counts number of words duplicate words in a filtered tokens list +
     generates the return structure.
 
     :param dict orig: Original nested dictionary of files and original sentences
     + filtered tokens.
     {<filename>: {"original_sentences": [<str>,], "filtered_tokens": [[<str>,],]}}
+    :param int most_common: Returns X most common words. Returns all if None.
     :returns: dict of:
     {<word>: {"count": <int>, "matches": [<str>,], "files": [<str>,]}}
     Where:
@@ -123,7 +124,9 @@ def counter(orig: dict) -> dict:
         _get_word_counts(x) for k, v in orig.items() for x in v["filtered_tokens"]
     ]
     _total_counter = _sum_collection_counters(_counters)
-    ret_dict = {k: {"count": v} for k, v in _total_counter.items()}
+    ret_dict = {
+        k: {"count": v} for k, v in _total_counter.most_common(most_common)
+    }
     for _word in ret_dict.keys():
         ret_dict[_word].update(_get_matches(_word, orig))
     return ret_dict
