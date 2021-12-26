@@ -6,8 +6,12 @@ from nltk import download
 from nltk import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
+from python_homework_nlp.common import download_nltk_data
 
 log = logging.getLogger(__name__)
+# TODO: Move to `main()` and call before tests (`conftest.py` is not earlier
+# enough due to import side-effects!!).
+download_nltk_data()
 STOPWORDS_EN = stopwords.words("english")
 STOPWORDS_EN.extend(string.punctuation)
 
