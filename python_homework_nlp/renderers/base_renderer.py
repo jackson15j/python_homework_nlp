@@ -1,8 +1,9 @@
 from abc import ABC
+from typing import Any
 
 
 class BaseRenderer(ABC):
-    _rendered_output = None
+    _rendered_output: Any = None
 
     def __init__(self, input_dict: dict):
         self.input_dict = input_dict
