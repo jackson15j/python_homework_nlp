@@ -24,7 +24,8 @@ def tokenize(string: str) -> list:
         sentences = sent_tokenize(string)
     except LookupError as e:
         # TOOD: switch to upfront download/gathering of NLTK Data, to simplify
-        # these functions.
+        # these functions. Call:
+        # `python_homework_nlp.common.download_nltk_data` from `main()`.
         log.debug("Tokenize exception: %r", e)
         download("punkt")
         sentences = sent_tokenize(string)
