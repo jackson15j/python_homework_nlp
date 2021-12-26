@@ -1,6 +1,7 @@
 import pytest
 from nltk.corpus import stopwords
 from python_homework_nlp.normaliser import (
+    counter,
     get_stems,
     get_tokens_without_stopwords,
     tokenize,
@@ -68,3 +69,54 @@ class TestNormaliser:
     )
     def test_tokenize(self, actual, exp):
         assert tokenize(actual) == exp
+
+    def test_counter(self):
+        actual = {
+            "file1": {
+                "original_sentences": [
+                    "First sentence.",
+                    "Second is sentences.",
+                    "Final SENTENCE!",
+                ],
+                "filtered_tokens": [
+                    ["first", "sentence"],
+                    ["second", "sentence"],
+                    ["final", "sentence"],
+                ],
+            }
+        }
+        exp = {
+            "final": {
+                "count": 1,
+                "matches": ["Final SENTENCE!"],
+                "files": [
+                    "file1",
+                ],
+            },
+            "first": {
+                "count": 1,
+                "matches": ["First sentence."],
+                "files": [
+                    "file1",
+                ],
+            },
+            "second": {
+                "count": 1,
+                "matches": ["Second is sentences."],
+                "files": [
+                    "file1",
+                ],
+            },
+            "sentence": {
+                "count": 3,
+                "matches": [
+                    "First sentence.",
+                    "Second is sentences.",
+                    "Final SENTENCE!",
+                ],
+                "files": [
+                    "file1",
+                ],
+            },
+        }
+        assert counter(actual) == exp
