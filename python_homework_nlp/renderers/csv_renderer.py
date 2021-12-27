@@ -20,8 +20,9 @@ class CsvRenderer(BaseRenderer):
         self._rendered_output = ret_val
 
     def write_to_file(self, filepath: Path) -> None:
-        # TODO: Create directories if doesn't exist.
-        #
+        # Create directories if doesn't exist.
+        filepath.parent.mkdir(parents=True, exist_ok=True)
+
         fieldnames = [
             "Word (Total Occurrences)",
             "Documents",
