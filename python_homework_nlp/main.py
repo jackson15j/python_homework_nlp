@@ -16,6 +16,7 @@ def cli_parser():
 
 
 def workflow(content_objs: list[Content]) -> dict:
+    print("Parsing file contents...")
     for content in content_objs:
         _normaliser = Normaliser(content)
         _normaliser.normalise()
@@ -27,10 +28,10 @@ def workflow(content_objs: list[Content]) -> dict:
 
 # FIXME: re-investigate the correct way to type hint an ABC class explicitly.
 def get_rendered_output(workflow_output: dict, renderer) -> tuple[Any, Any]:
+    print("Rendering output via: %r...", renderer)
     _renderer = renderer(workflow_output)
     _renderer.render()
     rendered_output = _renderer.rendered_output
-    print(f"{renderer} rendered output: {rendered_output!r}")
     return rendered_output, _renderer
 
 
