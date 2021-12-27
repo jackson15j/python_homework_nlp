@@ -22,8 +22,10 @@ class TestCommon:
 
     def test_filterd_collections_counters(self):
         _tokens = [["a", "b", "a"], ["a", "c"]]
-        exp = [collections.Counter(x) for x in _tokens]
+        exp_fcc = [collections.Counter(x) for x in _tokens]
+        exp_fct = collections.Counter(["a", "b", "a", "a", "c"])
         content = Content()
         content.filtered_tokens = _tokens
         assert content.filtered_tokens == _tokens
-        assert content.filtered_collections_counters == exp
+        assert content.filtered_collections_counters == exp_fcc
+        assert content.filtered_collections_counter_total == exp_fct

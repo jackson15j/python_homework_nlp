@@ -31,6 +31,9 @@ class Content:
     _original_tokens: list[list[str]] = []
     _filtered_tokens: list[list[str]] = []
     _filtered_collections_counters: list[collections.Counter] = []
+    _filtered_collections_counter_total: collections.Counter = (
+        collections.Counter()
+    )
 
     @property
     def file_name(self) -> str:
@@ -74,10 +77,23 @@ class Content:
         self._filtered_collections_counters = [
             collections.Counter(x) for x in value
         ]
+        _total: collections.Counter = collections.Counter()
+        for x in self._filtered_collections_counters:
+            _total += x
+        self._filtered_collections_counter_total = _total
 
     @property
     def filtered_collections_counters(self) -> list[collections.Counter]:
         """A list of `collections.Counter` instances with all words and their
         respective totals for the `filtered__tokens`.
+        ie. a Counter for each sentence of tokens.
         """
         return self._filtered_collections_counters
+
+    @property
+    def filtered_collections_counter_total(self) -> collections.Counter:
+        """A `collections.Counter` instance that totals all words and their
+        respective totals for the `filtered__tokens`.
+        ie. a Counter for all tokens in the file.
+        """
+        return self._filtered_collections_counter_total

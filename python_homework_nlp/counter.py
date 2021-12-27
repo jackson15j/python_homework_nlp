@@ -72,11 +72,9 @@ class Counter:
         # TODO: reduce the number of loops to generate the `ret_dict`!!
         ret_dict = {}
 
-        # TODO: Store `collection.Counters` for totals.
-        _counters = []
-        for x in self.content_objs:
-            _counters.extend(x.filtered_collections_counters)
-        _total_counter = Counter._sum_collection_counters(_counters)
+        _total_counter = Counter._sum_collection_counters(
+            [x.filtered_collections_counter_total for x in self.content_objs]
+        )
         ret_dict = {
             k: {"count": v} for k, v in _total_counter.most_common(most_common)
         }
