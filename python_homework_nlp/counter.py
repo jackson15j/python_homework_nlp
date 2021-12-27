@@ -13,18 +13,6 @@ class Counter:
         self.content_objs = content_objs
 
     @staticmethod
-    def _get_word_counts(tokens: list[str]) -> collections.Counter:
-        """Gets a `collections.Counter` instance with all words and their
-        respective totals for the provided list of tokens (words)
-        """
-        # TODO: Move this logic into `common.Content`, ie. write to:
-        # `Content._collections_counter` on writes to
-        # `Content.filtered_tokens`. Only expose getter for
-        # `Content.collections_counter`.j
-        print(tokens)
-        return collections.Counter(tokens)
-
-    @staticmethod
     def _sum_collection_counters(
         counters: list[collections.Counter],
     ) -> collections.Counter:
@@ -84,13 +72,10 @@ class Counter:
         # TODO: reduce the number of loops to generate the `ret_dict`!!
         ret_dict = {}
 
-        # TODO: Store `collection.Counters` for sentences + totals, both by
-        # files ?? Or Just Total by file ??
-        _counters = [
-            Counter._get_word_counts(y)
-            for x in self.content_objs
-            for y in x.filtered_tokens
-        ]
+        # TODO: Store `collection.Counters` for totals.
+        _counters = []
+        for x in self.content_objs:
+            _counters.extend(x.filtered_collections_counters)
         _total_counter = Counter._sum_collection_counters(_counters)
         ret_dict = {
             k: {"count": v} for k, v in _total_counter.most_common(most_common)

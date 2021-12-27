@@ -1,3 +1,4 @@
+import collections
 import logging
 from nltk import download
 
@@ -29,6 +30,7 @@ class Content:
     _original_sentences: list[str] = []
     _original_tokens: list[list[str]] = []
     _filtered_tokens: list[list[str]] = []
+    _filtered_collections_counters: list[collections.Counter] = []
 
     @property
     def file_name(self) -> str:
@@ -69,3 +71,13 @@ class Content:
     @filtered_tokens.setter
     def filtered_tokens(self, value) -> None:
         self._filtered_tokens = value
+        self._filtered_collections_counters = [
+            collections.Counter(x) for x in value
+        ]
+
+    @property
+    def filtered_collections_counters(self) -> list[collections.Counter]:
+        """A list of `collections.Counter` instances with all words and their
+        respective totals for the `filtered__tokens`.
+        """
+        return self._filtered_collections_counters
