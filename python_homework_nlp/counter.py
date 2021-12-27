@@ -1,12 +1,12 @@
-from collections import Counter
+import collections
 
 
-def _get_word_counts(tokens: list) -> Counter:
-    return Counter(tokens)
+def _get_word_counts(tokens: list) -> collections.Counter:
+    return collections.Counter(tokens)
 
 
-def _sum_collection_counters(counters: list) -> Counter:
-    total_counter: Counter = Counter()
+def _sum_collection_counters(counters: list) -> collections.Counter:
+    total_counter: collections.Counter = collections.Counter()
     for x in counters:
         total_counter += x
     return total_counter
