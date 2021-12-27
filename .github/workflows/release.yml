@@ -20,8 +20,8 @@ jobs:
       run: poetry install
     - name: Build - Python Package
       run: poetry build
-    - name: System - run App
-      run: app
+    - name: System - run App (entrypoint)
+      run: poetry run app
     - uses: ncipollo/release-action@v1
       with:
         # Store both the Python Wheel + generated renderings on Release page.
