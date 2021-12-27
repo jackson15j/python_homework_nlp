@@ -5,6 +5,8 @@ from nltk import download
 from nltk import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
+
+from python_homework_nlp.common import Content
 from python_homework_nlp.common import download_nltk_data
 
 log = logging.getLogger(__name__)
@@ -18,14 +20,10 @@ STOPWORDS_EN.extend(string.punctuation)
 class Normaliser:
     """Class for NLP workflow."""
 
-    # TODO: move to an object that I can pass from `FileReader` to `Renderer`s.
-    original_content: str
-    original_sentences: list[str]
-    original_tokens: list[list[str]]
-    filtered_tokens: list[list[str]]
+    content: Content
 
-    def __init__(self, string: str, stop_words: list = STOPWORDS_EN) -> None:
-        self.original_content = string
+    def __init__(self, content: Content, stop_words: list = STOPWORDS_EN) -> None:
+        self.content = content
         # See:
         # https://www.nltk.org/howto/stem.html#unit-tests-for-snowball-stemmer
         # Requires: `nltk.download("stopwords")`
@@ -49,7 +47,9 @@ class Normaliser:
         _filtered_tokens = [
             self._get_tokens_without_stopwords(x) for x in self.original_tokens
         ]
-        self.filtered_tokens = [self._get_stems(x) for x in _filtered_tokens]
+        self.content.filtered_tokens = [
+            self._get_stems(x) for x in _filtered_tokens
+        ]
 
     def _tokenize(self) -> None:
         """Convert a block of text into a nested list of sentences and then a
@@ -57,17 +57,22 @@ class Normaliser:
         """
         # Requires: `nltk.download('punkt')`
         try:
-            self.original_sentences = sent_tokenize(self.original_content)
+            self.content.original_sentences = sent_tokenize(
+                self.content.original_content
+            )
         except LookupError as e:
             # TOOD: switch to upfront download/gathering of NLTK Data, to simplify
             # these functions. Call:
             # `python_homework_nlp.common.download_nltk_data` from `main()`.
             log.debug("Tokenize exception: %r", e)
             download("punkt")
-            self.original_sentences = sent_tokenize(self.original_content)
+            self.content.original_sentences = sent_tokenize(
+                self.content.original_content
+            )
 
-        self.original_tokens = [
-            word_tokenize(sentence) for sentence in self.original_sentences
+        self.content.original_tokens = [
+            word_tokenize(sentence)
+            for sentence in self.content.original_sentences
         ]
 
     @staticmethod
@@ -84,4 +89,4 @@ class Normaliser:
         """
         # TODO: Switch to Lemmatizing (eg. `nltk.stem.WorkNetLemmatizer`) if the
         # accuracy is poor and I'm okay with the time hit.
-        self.filtered_tokens = [self.stemmer.stem(x) for x in tokens]
+        self.content.filtered_tokens = [self.stemmer.stem(x) for x in tokens]

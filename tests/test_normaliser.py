@@ -1,5 +1,6 @@
 import pytest
 from nltk.corpus import stopwords
+from python_homework_nlp.common import Content
 from python_homework_nlp.normaliser import (
     Normaliser,
     STOPWORDS_EN,
@@ -11,9 +12,12 @@ class TestNormaliser:
         "actual,exp", ((["look", "looking", "looked"], ["look"] * 3),)
     )
     def test_get_stems(self, actual, exp):
-        normaliser = Normaliser("")
+        content = Content()
+        normaliser = Normaliser(content)
         normaliser._get_stems(actual)
-        assert normaliser.filtered_tokens == exp
+        assert content.filtered_tokens == exp
+        # Verify that we are using Content by reference!!
+        assert normaliser.content == content
 
     @pytest.mark.parametrize(
         "actual,exp,stop_words",
@@ -70,6 +74,10 @@ class TestNormaliser:
         ),
     )
     def test_tokenize(self, actual, exp):
-        normaliser = Normaliser(actual)
+        content = Content()
+        content.original_content = actual
+        normaliser = Normaliser(content)
         normaliser._tokenize()
-        assert normaliser.original_tokens == exp
+        assert content.original_tokens == exp
+        # Verify that we are using Content by reference!!
+        assert normaliser.content == content
