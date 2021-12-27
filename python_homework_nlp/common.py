@@ -16,6 +16,19 @@ def download_nltk_data() -> None:
         download(x)
 
 
+def sum_collection_counters(
+    counters: list[collections.Counter],
+) -> collections.Counter:
+    """Collect together each sentence-level `collections.Counter` instance,
+    so that we can return a singular (file-level) `collections.Counter`
+    instance.
+    """
+    total_counter: collections.Counter = collections.Counter()
+    for x in counters:
+        total_counter += x
+    return total_counter
+
+
 class Content:
     """Container class for all transformations done against the text from a
     file.
@@ -77,10 +90,9 @@ class Content:
         self._filtered_collections_counters = [
             collections.Counter(x) for x in value
         ]
-        _total: collections.Counter = collections.Counter()
-        for x in self._filtered_collections_counters:
-            _total += x
-        self._filtered_collections_counter_total = _total
+        self._filtered_collections_counter_total = sum_collection_counters(
+            self._filtered_collections_counters
+        )
 
     @property
     def filtered_collections_counters(self) -> list[collections.Counter]:

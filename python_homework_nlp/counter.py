@@ -1,5 +1,4 @@
-import collections
-from python_homework_nlp.common import Content
+from python_homework_nlp.common import Content, sum_collection_counters
 
 
 class Counter:
@@ -11,19 +10,6 @@ class Counter:
 
     def __init__(self, content_objs: list[Content]) -> None:
         self.content_objs = content_objs
-
-    @staticmethod
-    def _sum_collection_counters(
-        counters: list[collections.Counter],
-    ) -> collections.Counter:
-        """Collect together each sentence-level `collections.Counter` instance,
-        so that we can return a singular (file-level) `collections.Counter`
-        instance.
-        """
-        total_counter: collections.Counter = collections.Counter()
-        for x in counters:
-            total_counter += x
-        return total_counter
 
     def _get_matches(self, word: str) -> dict:
         """Returns all files + sentences that match a given word.
@@ -68,11 +54,10 @@ class Counter:
         * `matches` = list of matched sentences.
         * `files` = list of filenames with matched sentences.
         """
-        # TODO: separate counter logic from result dict generation ??
         # TODO: reduce the number of loops to generate the `ret_dict`!!
         ret_dict = {}
 
-        _total_counter = Counter._sum_collection_counters(
+        _total_counter = sum_collection_counters(
             [x.filtered_collections_counter_total for x in self.content_objs]
         )
         ret_dict = {
