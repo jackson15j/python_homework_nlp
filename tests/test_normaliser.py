@@ -14,8 +14,8 @@ class TestNormaliser:
     def test_get_stems(self, actual, exp):
         content = Content()
         normaliser = Normaliser(content)
-        normaliser._get_stems(actual)
-        assert content.filtered_tokens == exp
+        ret_val = normaliser._get_stems(actual)
+        assert ret_val == exp
         # Verify that we are using Content by reference!!
         assert normaliser.content == content
 
@@ -79,5 +79,40 @@ class TestNormaliser:
         normaliser = Normaliser(content)
         normaliser._tokenize()
         assert content.original_tokens == exp
+        # Verify that we are using Content by reference!!
+        assert normaliser.content == content
+
+    def test_normalise(self):
+        actual = "Arthur didn't feel good at eight o'clock."
+        exp_orig_tokens = [
+            [
+                "Arthur",
+                "did",
+                "n't",
+                "feel",
+                "good",
+                "at",
+                "eight",
+                "o'clock",
+                ".",
+            ]
+        ]
+        exp_filtered_tokens = [
+            [
+                "arthur",
+                "n't",
+                "feel",
+                "good",
+                "eight",
+                "o'clock",
+            ]
+        ]
+
+        content = Content()
+        content.original_content = actual
+        normaliser = Normaliser(content)
+        normaliser.normalise()
+        assert content.original_tokens == exp_orig_tokens
+        assert content.filtered_tokens == exp_filtered_tokens
         # Verify that we are using Content by reference!!
         assert normaliser.content == content

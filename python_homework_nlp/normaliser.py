@@ -45,7 +45,8 @@ class Normaliser:
         """
         self._tokenize()
         _filtered_tokens = [
-            self._get_tokens_without_stopwords(x) for x in self.original_tokens
+            self._get_tokens_without_stopwords(x)
+            for x in self.content.original_tokens
         ]
         self.content.filtered_tokens = [
             self._get_stems(x) for x in _filtered_tokens
@@ -77,16 +78,16 @@ class Normaliser:
 
     @staticmethod
     def _get_tokens_without_stopwords(
-        tokens: list, stop_words: list = STOPWORDS_EN
-    ) -> list:
+        tokens: list[str], stop_words: list[str] = STOPWORDS_EN
+    ) -> list[str]:
         """Gets a new list of tokens with all stopwords removed."""
         return [x for x in tokens if x not in stop_words]
 
-    def _get_stems(self, tokens: list) -> None:
+    def _get_stems(self, tokens: list[str]) -> list[str]:
         """Parses the string and returns a string with all of the _"stemmed"_
         versions of the words. Stemming is process of reducing words to their
         base/root/stem version. eg. fishing, fished, and fisher to the stem fish.
         """
         # TODO: Switch to Lemmatizing (eg. `nltk.stem.WorkNetLemmatizer`) if the
         # accuracy is poor and I'm okay with the time hit.
-        self.content.filtered_tokens = [self.stemmer.stem(x) for x in tokens]
+        return [self.stemmer.stem(x) for x in tokens]
