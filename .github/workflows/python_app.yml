@@ -43,3 +43,7 @@ jobs:
       run: poetry run mypy .
     - name: Tests - pytest
       run: poetry run pytest
+    - name: System - run App (python)
+      run: poetry run python python_homework_nlp/main.py
+    - name: System - run App (entrypoint)
+      run: poetry run app

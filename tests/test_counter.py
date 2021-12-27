@@ -1,5 +1,6 @@
 import pytest
-from python_homework_nlp.counter import counter
+from python_homework_nlp.common import Content
+from python_homework_nlp.counter import Counter
 
 
 class TestCounter:
@@ -90,4 +91,14 @@ class TestCounter:
         ),
     )
     def test_counter(self, actual, exp, most_common):
-        assert counter(actual, most_common) == exp
+        content = Content()
+        # FIXME: dirty way of using the input_dict structure, that will break
+        # if I have multiple files. Fully transition test over to using
+        # `Content()`!!
+        content.file_name = "file1"
+        content.original_sentences = actual[content.file_name][
+            "original_sentences"
+        ]
+        content.filtered_tokens = actual[content.file_name]["filtered_tokens"]
+        counter = Counter([content])
+        assert counter.counter(most_common) == exp

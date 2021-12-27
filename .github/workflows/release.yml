@@ -20,7 +20,10 @@ jobs:
       run: poetry install
     - name: Build - Python Package
       run: poetry build
+    - name: System - run App (entrypoint)
+      run: poetry run app
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "dist/*.*"
+        # Store both the Python Wheel + generated renderings on Release page.
+        artifacts: "dist/*.*,build/output/*.*"
         token: ${{ secrets.GITHUB_TOKEN }}

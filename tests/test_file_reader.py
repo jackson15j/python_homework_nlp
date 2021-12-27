@@ -25,10 +25,8 @@ class TestFileReader:
         file4.write_text(not_exp2)
 
         ret_val = get_folder_contents(tmp_path)
-        assert ret_val[file1.name] == exp1
-        assert ret_val[file2.name] == exp2
-        assert len(ret_val.keys()) == 2
-        assert file3.name not in ret_val.keys()
-        assert file4.name not in ret_val.keys()
-        assert not_exp1 not in ret_val.values()
-        assert not_exp2 not in ret_val.values()
+        assert len(ret_val) == 2
+        assert ret_val[0].file_name == file1.name
+        assert ret_val[0].original_content == exp1
+        assert ret_val[1].file_name == file2.name
+        assert ret_val[1].original_content == exp2

@@ -29,6 +29,10 @@ Counter --> HtmlRenderer
 Counter --> JsonRenderer
 
 
+note top of FileReader
+**TODO: update notes with ``common.Content`` structure instead of transitional JSON!!**
+end note
+
 note left of CliParser
         Input:
 

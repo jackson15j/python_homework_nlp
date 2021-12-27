@@ -1,4 +1,5 @@
-from abc import ABC
+from abc import ABC, abstractmethod
+from pathlib import Path
 from typing import Any
 
 
@@ -8,8 +9,24 @@ class BaseRenderer(ABC):
     def __init__(self, input_dict: dict):
         self.input_dict = input_dict
 
+    @abstractmethod
     def render(self):
-        raise NotImplementedError()
+        """Method to render the supplied data into the required representation.
+
+        .. note::
+            Writes rendered output to the `rendered_output` property for
+            downstrream usage.
+        """
+
+    @abstractmethod
+    def write_to_file(self, filepath: Path) -> None:
+        """Writes the `rendered_output` to a file.
+
+        .. note::
+            Handles creation of missing directories.
+
+        :param pathlib.Path filepath: filepath to write to.
+        """
 
     @property
     def rendered_output(self):

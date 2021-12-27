@@ -54,6 +54,24 @@ Either:
   for published wheels) and then run the entrypoint: `<TODO: add entrypoint>`.
 * Follow the steps in: [Contribute](#contribute) section.
 
+You can then run the application via the entrypoint:
+
+* `app`.
+
+Example:
+
+```bash
+$ app
+[nltk_data] Downloading package punkt to /path/to/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[nltk_data] Downloading package stopwords to /path/to/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+Parsing file contents...
+Rendering output via: %r... <class 'python_homework_nlp.renderers.json_renderer.JsonRenderer'>
+Rendering output via: %r... <class 'python_homework_nlp.renderers.csv_renderer.CsvRenderer'>
+$
+```
+
 ## Contribute
 
 * Pre-req.: `curl -sSL https://install.python-poetry.org | python3 -` [Poetry:

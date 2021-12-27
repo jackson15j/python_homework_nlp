@@ -47,6 +47,9 @@ pytest-html = "*"
 # Compare against: https://python-poetry.org/docs/cli/#version !!
 # TODO: Add entrypoint + `README.md` note: https://python-poetry.org/docs/cli/#run
 
+[tool.poetry.scripts]
+app = "python_homework_nlp.main:main"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
