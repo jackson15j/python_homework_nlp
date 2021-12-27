@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Generator, Union
 from python_homework_nlp.common import Content
 
 
@@ -11,7 +12,7 @@ def get_folder_contents(dir_path: Path, sort_files: bool = True) -> list[Content
     :returns: list of: Content.
     """
     ret_val = []
-    files = dir_path.glob("*.txt")
+    files: Union[list[Path], Generator[Path, None, None]] = dir_path.glob("*.txt")
     if sort_files:
         # Test helper for deterministic results without additional test code to
         # discover arbitrary order from the glob generator.
