@@ -43,3 +43,5 @@ jobs:
       run: poetry run mypy .
     - name: Tests - pytest
       run: poetry run pytest
+    - name: System - run App
+      run: app
