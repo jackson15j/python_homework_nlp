@@ -13,11 +13,32 @@ log = logging.getLogger(__name__)
 # TODO: Move to `main()` and call before tests (`conftest.py` is not earlier
 # enough due to import side-effects!!).
 download_nltk_data()
+# Manual list of Stemming overrides to clean up the noisy output. Ideally, I
+# should either try one of the many other NLTK Stemming options, or move over
+# to Lemmatization instead.
+STEMMING_OVERRIDES = (
+    "I",
+    "'s",
+    "And",
+    "n't",
+    "us",
+    "ve",
+    "The",
+    "But",
+    "It",
+    "in",
+    "ll",
+    "'re",
+    "'",
+    "''",
+    "``",
+    "'d",
+    "'m",
+    "a",
+)
 STOPWORDS_EN = stopwords.words("english")
 STOPWORDS_EN.extend(string.punctuation)
-# TODO: strip additional stop words eg.
-# i, 's, and, n't, us, ve, the, but
-#
+STOPWORDS_EN.extend(STEMMING_OVERRIDES)
 # TODO: fix stop words with lemmitisation (or output both types), due to root
 # words like:
 # countri, peopl, promis, chang
