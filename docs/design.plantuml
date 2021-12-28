@@ -41,6 +41,7 @@ package App {
                 class CsvRenderer
                 class JsonRenderer
                 class HtmlRenderer #line.dashed
+                class MarkdownRenderer
         }
 }
 
@@ -58,6 +59,7 @@ BaseRenderer <|-[dotted]- ConsoleRenderer
 BaseRenderer <|-[dotted]- CsvRenderer
 BaseRenderer <|-[dotted]- HtmlRenderer
 BaseRenderer <|-[dotted]- JsonRenderer
+BaseRenderer <|-[dotted]- MarkdownRenderer
 FileReader -[hidden]left-> Normaliser
 Normaliser -[hidden]left-> Counter
 

@@ -8,15 +8,18 @@ from python_homework_nlp.renderers import (
     ConsoleRenderer,
     CsvRenderer,
     JsonRenderer,
+    MarkdownRenderer,
 )
 
 OUTPUT_DIR = Path("build/output/")
 OUTPUT_CSV = OUTPUT_DIR / "output.csv"
 OUTPUT_JSON = OUTPUT_DIR / "output.json"
+OUTPUT_MARKDOWN = OUTPUT_DIR / "output.md"
 FILEPATH_LOOKUP = {
     ConsoleRenderer: "",
     CsvRenderer: OUTPUT_CSV,
     JsonRenderer: OUTPUT_JSON,
+    MarkdownRenderer: OUTPUT_MARKDOWN,
 }
 
 # TODO: `typeddict` typehints.
@@ -113,6 +116,7 @@ def main():
     # TODO: Update Renderers to use Content ??
     render_output(workflow_output, JsonRenderer)
     render_output(workflow_output, CsvRenderer)
+    render_output(workflow_output, MarkdownRenderer)
     if args.output_to_console:
         render_output(workflow_output, ConsoleRenderer)
     print("done.")
