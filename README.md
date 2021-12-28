@@ -46,6 +46,55 @@ From the [documents] provided:
 
 ![PlantUml Design][PlantUml Design]
 
+### Normaliser
+
+Current implementation is using Stemming. This is documented as being typically
+faster than Lemmatization at the cost of accuracy/quality.
+
+### Counter
+
+Current design uses _"2-passes"_ to go from filtered tokens to counts +
+file/sentence mappings:
+
+* Pass 0: tokenize/filter/stem words from content (`Normaliser`).
+* Pass 1: Use [collections.Counter] to get a set of words+counts.
+    * Currently counts are done per-sentence, then amalgamated together
+      per-file and then all files.
+* Pass 2: Loop through `Content` instances to discover file/sentence mappings
+  for each word.
+* [`python_homework_nlp/test_main.py::TestMain::test_workflow_with_real_docs`] takes ~0.7s to run `main.workflow` (`Normaliser` + `Counter`) on my Linux
+  PC with an i7-8700 CPU.
+
+Pros:
+
+* Fast to get the `Word (Total Occurences)` column in the [Exercise]
+  section's table.
+* Could horizontally scale _"Pass 2"_ by using a task queue system and then
+  amalgamating the results at the end.
+* Can specify the a number for the top/most-common words as output from -"Pass
+  1"_. ie. Save time in _"Pass 2"_.
+* **Efficiency:** _"Pass 1"_ is _O(n)_ for the [collections.Counter] with a
+  quick _O(n^3)_ to get a singular [collections.Counter] total.
+
+Cons:
+
+* _"Pass 2"_ is inefficient to get the `Documents`/`Sentences containing the
+  word` columns in the [Exercise] section's table, due to doing a full pass of
+  all sentences for each word.
+* **Efficiency:** _"Pass 2"_ is: _O(n^3)_. For each word, for each file, for
+  each sentence find a match.
+
+#### Alternative Design Ideas
+
+* Modifications to the above _"2-Pass"_ design:
+    * juggle the _O(n^3)_ ordering. eg: For each file, for each sentence, for
+      each word find a match.
+    * Restructure code to benefit from caching. eg. [functools.lru_cache].
+* _"Single-pass"_ where file/sentence mapping is recorded at point of
+  normalising each sentence + increment a counter for each word when seen
+  again.
+    * Would need to flatten the files/sentences structure to avoid _O(n^3)_
+
 ## Usage
 
 Either:
@@ -112,3 +161,7 @@ stage).
 [PlantUml Design]: http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jackson15j/python_homework_nlp/main/docs/design.plantuml
 [docs/]: docs/
 [initial design sketch]: docs/initial_design_sketch_before_investigating_nltk.jpg
+[collections.Counter]: https://docs.python.org/3/library/collections.html#collections.Counter
+[Exercise]: #exercise
+[`python_homework_nlp/test_main.py::TestMain::test_workflow_with_real_docs`]: tests/test_main.py
+[functools.lru_cache]: https://docs.python.org/3/library/functools.html#functools.lru_cache
