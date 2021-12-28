@@ -21,10 +21,6 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.9"
 nltk = "^3.6.6"
-# TODO: additional dependencies trying out: https://www.nltk.org/index.html
-# nltk.download('punkt')
-# nltk.download('averaged_perceptron_tagger')
-# nltk.download('stopwords')
 
 [tool.poetry.dev-dependencies]
 black = "*"
@@ -35,9 +31,6 @@ pycodestyle = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-html = "*"
-# TODO: add `tox` for multiple python version testing.
-# TODO: pull in `setuptools_scm` or just manually version for now ??
-# Compare against: https://python-poetry.org/docs/cli/#version !!
 
 [tool.poetry.scripts]
 app = "python_homework_nlp.main:main"

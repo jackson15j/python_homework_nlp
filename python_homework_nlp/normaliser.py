@@ -33,7 +33,6 @@ class Normaliser:
         # See:
         # https://www.nltk.org/howto/stem.html#unit-tests-for-snowball-stemmer
         # Requires: `nltk.download("stopwords")`
-        # TODO: Create `stemmer` once.
         try:
             self.stemmer = SnowballStemmer("english", ignore_stopwords=True)
         except LookupError as e:

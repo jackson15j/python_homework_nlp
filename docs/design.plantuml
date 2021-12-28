@@ -6,79 +6,106 @@ set separator .
 
 
 package App {
-        component CliParser
-        component FileReader
+        package common {
+                class Content {
+                        file_name : str
+                        original_content : str
+                        original_sentences : list[str]
+                        original_tokens : list[list[str]]
+                        filtered_tokens : list[list[str]]
+                        filtered_collections_counters : list[collections.Counter]
+                        filtered_collections_counter_total : collections.Counter
+                }
+        }
         package NlpParser {
-                component Normaliser
-                component Counter
+                entity main {
+                        +cli_parser()
+                        +workflow()
+                        +main()
+                }
+                entity FileReader
+                class Normaliser {
+                        +normalise()
+                }
+                class Counter {
+                        +counter()
+                }
         }
         package Renderers {
-                component CsvRenderer
-                file ar as "Additional Renderers" #line.dashed {
-                        component JsonRenderer
-                        component HtmlRenderer
+                interface BaseRenderer #line.dotted {
+                        rendered_output
+                        +render()
+                        +write_to_file()
                 }
+                class CsvRenderer
+                class JsonRenderer
+                class HtmlRenderer #line.dashed
         }
 }
 
-CliParser -right-> FileReader
-FileReader --> Normaliser
-Normaliser -right-> Counter
-Counter --> CsvRenderer
-Counter --> HtmlRenderer
-Counter --> JsonRenderer
+Content *-[dotted]- FileReader
+Content *-[dotted]- Normaliser
+Content *-[dotted]- Counter
+main::main -right->"1" FileReader
+main::workflow -->"2" Normaliser
+main::workflow -->"3" Counter
+main::workflow -->"4" CsvRenderer
+main::workflow -->"4" HtmlRenderer
+main::workflow -->"4" JsonRenderer
+BaseRenderer <|-[dotted]- CsvRenderer
+BaseRenderer <|-[dotted]- HtmlRenderer
+BaseRenderer <|-[dotted]- JsonRenderer
+FileReader -[hidden]left-> Normaliser
+Normaliser -[hidden]left-> Counter
 
 
-note top of FileReader
-**TODO: update notes with ``common.Content`` structure instead of transitional JSON!!**
+note top of Content
+        - Instance created per-file.
+        - Passed by-Reference through the App.
 end note
 
-note left of CliParser
-        Input:
+note top of main
+        ``cli_parser()``:
 
-        * ``-d,--dir`` - Default: ``test_docs/``.
-        * ``-o,--output`` - Default: CSV.
+        - ``-d,--docs_dir`` - Default: ``test_docs/``.
+        - ``-n,--num_most_common_words`` - Default: Infinite.
+
+        ``workflow()``:
+        - Input: ``list[Content]``
+        - Calls: ``Normaliser.normalise()``
+        - Calls: ``Counter.counter()`
 end note
 
-note left of FileReader
-        Input:
-
-        * Folder of text files.
-
-        Output JSON:
-
-        * ``{<file>: <content>, ...}``
+note bottom of FileReader
+        - Input: Folder of text files.
+        - Output: ``list[Content]``.
 end note
 
-note left of Normaliser
+note bottom of Normaliser
         Function for each step:
 
-        - Split file on sentences. eg. ``{<file>: [<sentence>, ...]}``
-        - Lowercase while parsing.
-        - Remove pluralisation (de-dup.).
-        - Expand contractions.
+        - Tokenize file into sentences.
+        - Tokenize sentences into words.
+        - Stem tokens.
         - Remove *"stop"* words
+        - <b>TODO:</b> Expand contractions.
 end note
 
-note left of Counter
+note bottom of Counter
         Count of each unique word with file/sentence recorded.
 end note
 
-note left of CsvRenderer
+note bottom of CsvRenderer
         Input JSON:
         ```
         {
             <word>: {
                 "count": <int>,
-                "matches": {
-                    <document>: [<sentence>, ...],
-                }
+                "matches": [<original_sentence>, ...],
+                "files": [<filename>, ...],
+                },
             },
         }
         ```
-
-        Ussage:
-
-        * ``docs_for_word = json_result[word][matches].keys()``
 end note
 @enduml
