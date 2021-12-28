@@ -41,9 +41,12 @@ STEMMING_OVERRIDES = (
 STOPWORDS_EN = stopwords.words("english")
 STOPWORDS_EN.extend(string.punctuation)
 STOPWORDS_EN.extend(STEMMING_OVERRIDES)
-# TODO: fix stop words with lemmitisation (or output both types), due to root
+# BUG: fix stop words with lemmitisation (or output both types), due to root
 # words like:
 # countri, peopl, promis, chang
+#
+# Mentioned this in the Retrospective section in the `README.md` in more
+# detail.
 
 
 class Normaliser:

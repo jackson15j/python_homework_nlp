@@ -195,6 +195,10 @@ intentionally left in the code.
 * Try out and profile [Alternative Design Ideas].
 * [NLTK]: Try out different Stemming/Lemmatizing calls in [NLTK] to compare
   speed vs quality of results.
+    * Break out the filtering from the `Normaliser` so that the current
+      Stemming and future `AlternativeStemming` or `Lemmatization` callers are
+      classes that use the same abstract base class interface. ie. simplify
+      changing them based on purpose/speed/quality.
 * [NLTK]: investigate best practices for managing [NLTK] Data in Production
   code. eg. gathering data dependencies at build-time vs run-time. Packing data
   into built wheel or not?
