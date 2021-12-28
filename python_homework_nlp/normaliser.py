@@ -1,4 +1,3 @@
-import logging
 import string
 
 from nltk import download
@@ -6,11 +5,14 @@ from nltk import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 
-from python_homework_nlp.common import Content
-from python_homework_nlp.common import download_nltk_data
+from python_homework_nlp.common import (
+    configure_logging,
+    Content,
+    download_nltk_data,
+)
 
-log = logging.getLogger(__name__)
-# TODO: Move to `main()` and call before tests (`conftest.py` is not earlier
+log = configure_logging(__name__)
+# FIXME: Move to `main()` and call before tests (`conftest.py` is not earlier
 # enough due to import side-effects!!).
 download_nltk_data()
 # Manual list of Stemming overrides to clean up the noisy output. Ideally, I

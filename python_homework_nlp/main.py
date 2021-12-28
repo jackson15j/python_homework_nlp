@@ -1,6 +1,6 @@
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
-from python_homework_nlp.common import Content, timer
+from python_homework_nlp.common import configure_logging, Content, timer
 from python_homework_nlp.counter import Counter
 from python_homework_nlp.file_reader import get_folder_contents
 from python_homework_nlp.normaliser import Normaliser
@@ -12,6 +12,7 @@ from python_homework_nlp.renderers import (
     MarkdownRenderer,
 )
 
+log = configure_logging(__name__)
 OUTPUT_DIR = Path("build/output/")
 OUTPUT_CSV = OUTPUT_DIR / "output.csv"
 OUTPUT_HTML = OUTPUT_DIR / "output.html"
@@ -74,15 +75,14 @@ def workflow(content_objs: list[Content], parsed_args: Namespace) -> dict:
     :param argparse.Namespace: Parsed CLI args.
     :returns: dict of output to be rendered.
     """
-    print("-- Parsing file contents...")
+    log.info("-- Parsing file contents...")
     for content in content_objs:
         _normaliser = Normaliser(content)
         _normaliser.normalise()
 
-    print("-- Counting words against files & sentences...")
+    log.info("-- Counting words against files & sentences...")
     counter = Counter(content_objs)
     ret_dict = counter.counter(parsed_args.num_most_common_words)
-    # TODO: Should counter change to populate `Context` with word counts ??
     return ret_dict
 
 
@@ -96,34 +96,34 @@ def render_output(workflow_output: dict, renderer) -> None:
     {<word>: {"count": <int>, "matches": [<str>,], "files": [<str>,]}}
     :param BaseRenderer renderer: Render to use.
     """
-    print(f"-- Rendering output via: {renderer.__name__}...")
+    log.info("-- Rendering output via: %s...", renderer.__name__)
     _renderer = renderer(workflow_output)
     _renderer.render()
     _ = _renderer.rendered_output
     _filepath = FILEPATH_LOOKUP[renderer]
-    print(f"-- Writing Rendered output to: {_filepath} ...")
+    log.info("-- Writing Rendered output to: %s ...", _filepath)
     _renderer.write_to_file(_filepath)
 
 
 @timer
 def main():
     args = cli_parser()
-    print(
-        f"Gathering `*.txt` file contents from the root of: {args.docs_dir} ..."
+    log.info(
+        "Gathering `*.txt` file contents from the root of: %s ...",
+        args.docs_dir,
     )
     content_objs = get_folder_contents(args.docs_dir)
 
-    print("Calling main workflow.")
+    log.info("Calling main workflow.")
     workflow_output = workflow(content_objs, args)
-    print("Render results.")
-    # TODO: Update Renderers to use Content ??
+    log.info("Render results.")
     render_output(workflow_output, CsvRenderer)
     render_output(workflow_output, HtmlRenderer)
     render_output(workflow_output, JsonRenderer)
     render_output(workflow_output, MarkdownRenderer)
     if args.output_to_console:
         render_output(workflow_output, ConsoleRenderer)
-    print("done.")
+    log.info("done.")
 
 
 if __name__ == "__main__":
