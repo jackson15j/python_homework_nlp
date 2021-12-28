@@ -14,7 +14,6 @@ FILEPATH_LOOKUP = {
     JsonRenderer: OUTPUT_JSON,
 }
 
-# TODO: Tests for main.py `workflow`.
 # TODO: Sanitise all TODO's!
 # TODO: Test + time Normaliser + Counter!! ie. Core logic time.
 # TODO: Write Retrospective section in `README.md`.
