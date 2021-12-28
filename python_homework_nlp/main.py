@@ -15,7 +15,6 @@ FILEPATH_LOOKUP = {
 }
 
 # TODO: Tests for main.py `workflow`.
-# TODO: docstrings in `main.py`.
 # TODO: Sanitise all TODO's!
 # TODO: Test + time Normaliser + Counter!! ie. Core logic time.
 # TODO: Write Retrospective section in `README.md`.
@@ -64,9 +63,12 @@ def workflow(content_objs: list[Content], parsed_args: Namespace) -> dict:
     :param argparse.Namespace: Parsed CLI args.
     :returns: dict of output to be rendered.
     """
+    print("-- Parsing file contents...")
     for content in content_objs:
         _normaliser = Normaliser(content)
         _normaliser.normalise()
+
+    print("-- Counting words against files & sentences...")
     counter = Counter(content_objs)
     ret_dict = counter.counter(parsed_args.num_most_common_words)
     # TODO: Should counter change to populate `Context` with word counts ??
@@ -75,12 +77,19 @@ def workflow(content_objs: list[Content], parsed_args: Namespace) -> dict:
 
 # FIXME: re-investigate the correct way to type hint an ABC class explicitly.
 def render_output(workflow_output: dict, renderer) -> None:
-    print(f"Rendering output via: {renderer!r} ...")
+    """Renders the output from the `Counter` to a more human readable form and
+    then writes it to a file in: `build/output/`.
+
+    :param dict workflow_output: Dict of `Counter` results to render. Expect:
+    {<word>: {"count": <int>, "matches": [<str>,], "files": [<str>,]}}
+    :param BaseRenderer renderer: Render to use.
+    """
+    print(f"-- Rendering output via: {renderer.__name__}...")
     _renderer = renderer(workflow_output)
     _renderer.render()
     _ = _renderer.rendered_output
     _filepath = FILEPATH_LOOKUP[renderer]
-    print(f"Writing Rendered output to: {_filepath} ...")
+    print(f"-- Writing Rendered output to: {_filepath} ...")
     _renderer.write_to_file(_filepath)
 
 
@@ -91,13 +100,13 @@ def main():
     )
     content_objs = get_folder_contents(args.docs_dir)
 
-    # call main workflow.
-    # Render results
+    print("Calling main workflow.")
     workflow_output = workflow(content_objs, args)
+    print("Render results.")
     # TODO: Update Renderers to use Content ??
     render_output(workflow_output, JsonRenderer)
     render_output(workflow_output, CsvRenderer)
-    print("...done.")
+    print("done.")
 
 
 if __name__ == "__main__":
