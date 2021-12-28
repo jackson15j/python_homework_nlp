@@ -40,7 +40,7 @@ package App {
                 class ConsoleRenderer
                 class CsvRenderer
                 class JsonRenderer
-                class HtmlRenderer #line.dashed
+                class HtmlRenderer
                 class MarkdownRenderer
         }
 }

@@ -7,17 +7,20 @@ from python_homework_nlp.normaliser import Normaliser
 from python_homework_nlp.renderers import (
     ConsoleRenderer,
     CsvRenderer,
+    HtmlRenderer,
     JsonRenderer,
     MarkdownRenderer,
 )
 
 OUTPUT_DIR = Path("build/output/")
 OUTPUT_CSV = OUTPUT_DIR / "output.csv"
+OUTPUT_HTML = OUTPUT_DIR / "output.html"
 OUTPUT_JSON = OUTPUT_DIR / "output.json"
 OUTPUT_MARKDOWN = OUTPUT_DIR / "output.md"
 FILEPATH_LOOKUP = {
     ConsoleRenderer: "",
     CsvRenderer: OUTPUT_CSV,
+    HtmlRenderer: OUTPUT_HTML,
     JsonRenderer: OUTPUT_JSON,
     MarkdownRenderer: OUTPUT_MARKDOWN,
 }
@@ -114,8 +117,9 @@ def main():
     workflow_output = workflow(content_objs, args)
     print("Render results.")
     # TODO: Update Renderers to use Content ??
-    render_output(workflow_output, JsonRenderer)
     render_output(workflow_output, CsvRenderer)
+    render_output(workflow_output, HtmlRenderer)
+    render_output(workflow_output, JsonRenderer)
     render_output(workflow_output, MarkdownRenderer)
     if args.output_to_console:
         render_output(workflow_output, ConsoleRenderer)
