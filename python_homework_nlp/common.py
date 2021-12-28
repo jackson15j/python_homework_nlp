@@ -11,7 +11,7 @@ REQ_NLTK_DATA = (
 )
 
 
-def timer(func=None, *, debug_print: bool = False):
+def timer(func=None, *, debug_print: bool = True):
     """Decorator to report the time it takes to run a function.
 
     .. note::
