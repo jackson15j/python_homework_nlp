@@ -146,13 +146,61 @@ bloat the PyPI namespace with a point-in-time homework piece that wont have
 on-going maintenance/support (beyond the initial learning/puzzle-solving
 stage).
 
+---
 
+## Retrospective
+
+### Things I've learnt?
+
+* [Poetry]: never used it before, but so far seems to be what [Pipenv] should
+  have been. No major pain (outside of the py3.10/pytest version bug) so far
+  and very smooth.
+* [NLTK]: never used it before. Interesting package with adequate reference
+  examples. Had to do a general refresher on NLP terminology (and changes) from
+  what terms were used in the rule-based NLP that I've interacted with in the
+  past. Only scratched the surface so far.
+* [mypy]: I've been pushing type hints usage on past work projects as we came
+  to support those python versions in Production (We didn't us [mypy] in anger,
+  due to the tech debt of warnings). Definitely benefited from the mypy
+  warnings catching mistakes around single/double nested lists in function
+  calls.
+* [PlantUml] Proxy: Use the proxy to generate UML on page loads, instead of
+  committing generated images into git.
+
+### What would I improve (with additional time)?
+
+**NOTE:** Follow is in addition to, or summary of, the `TODO` comments
+intentionally left in the code.
+
+* Additional Renderer's. eg. Markdown table, HTML, console.
+* Fix bugs:
+   * Multiline strings in single CSV field syntax.
+   * TypeHint an ABC class correctly.
+   * [NLTK] Data download singleton + remove `normaliser.py` import
+     side-effect.
+* Add [tox] for matrix building/testing of the application against python
+  versions locally. **NOTE:** negated by the matrix building in CI
+  (`python_app` Github Action).
+
+### What would I change?
+
+* [Poetry Docs: version]: I prefer discovering versions git tags, instead of
+  forcing a commit/PR to bump. I've been using [PyPA: setuptools_scm] to do
+  this in current projects. Need to investigate how other uses of [Poetry]
+  handle versioning.
+* Try out and profile [Alternative Design Ideas].
+* [NLTK]: Try out different Stemming/Lemmatizing calls in [NLTK] to compare
+  speed vs quality of results.
+* [NLTK]: investigate best practices for managing [NLTK] Data in Production
+  code. eg. gathering data dependencies at build-time vs run-time. Packing data
+  into built wheel or not?
 [documents]: test_docs/
 
 [NLTK]: https://www.nltk.org/
 [Boost Spirit]: https://www.boost.org/doc/libs/1_78_0/libs/spirit/doc/html/index.html
 [Poetry]: https://python-poetry.org
 [Poetry Docs: install]: https://python-poetry.org/docs/master/#installation
+[Poetry Docs: version]: https://python-poetry.org/docs/master/cli/#version
 [PDM]: https://pdm.fming.dev
 [PEP-517]: https://www.python.org/dev/peps/pep-0517/
 [Pipenv]: https://pipenv.pypa.io/en/latest/
@@ -165,3 +213,8 @@ stage).
 [Exercise]: #exercise
 [`python_homework_nlp/test_main.py::TestMain::test_workflow_with_real_docs`]: tests/test_main.py
 [functools.lru_cache]: https://docs.python.org/3/library/functools.html#functools.lru_cache
+
+[PyPA: setuptools_scm]: https://github.com/pypa/setuptools_scm/
+[mypy]: mypy-lang.org
+[Alternative Design Ideas]: #alternative-design-ideas
+[tox]: https://tox.wiki/en/latest/index.html

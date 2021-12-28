@@ -14,11 +14,7 @@ FILEPATH_LOOKUP = {
     JsonRenderer: OUTPUT_JSON,
 }
 
-# TODO: Sanitise all TODO's!
-# TODO: Write Retrospective section in `README.md`.
 # TODO: `typeddict` typehints.
-# TODO: Improve efficiency around `original_sentence` lookup to sentence
-# matching. Aim: single loop.
 
 
 def cli_parser() -> Namespace:
