@@ -1,5 +1,7 @@
 import collections
 import logging
+import time
+from functools import partial, wraps
 from nltk import download
 
 log = logging.getLogger(__name__)
@@ -7,6 +9,32 @@ REQ_NLTK_DATA = (
     "punkt",
     "stopwords",
 )
+
+
+def timer(func=None, *, debug_print: bool = False):
+    """Decorator to report the time it takes to run a function.
+
+    .. note::
+        For more detail, replace with `cProfile` and pass CLI arg to disable.
+        See: https://docs.python.org/3.6/library/profile.html.
+
+    :param func: function to execute.
+    :pararm bool debug_print: Print debug line if True.
+    """
+    if func is None:
+        return partial(timer, debug_print=debug_print)
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        total = time.time() - start
+        log.debug("%r took: %ssecs", func, total)
+        if debug_print:
+            print(f"--- DEBUG: {func} took: {total}secs")
+        return result
+
+    return wrapper
 
 
 def download_nltk_data() -> None:
