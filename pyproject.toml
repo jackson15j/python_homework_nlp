@@ -25,7 +25,6 @@ nltk = "^3.6.6"
 # nltk.download('punkt')
 # nltk.download('averaged_perceptron_tagger')
 # nltk.download('stopwords')
-# 
 
 [tool.poetry.dev-dependencies]
 black = "*"
@@ -36,16 +35,9 @@ pycodestyle = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-html = "*"
-# TODO: run checkers.
-# TODO: add poetry steps to build a wheel.
 # TODO: add `tox` for multiple python version testing.
-# TODO: add CI that runs checkers.
-# TODO: add CI that runs tests.
-# TODO: add CI that builds the wheel.
-# TODO: add CI that publishes the wheel to Github Releases on tags.
 # TODO: pull in `setuptools_scm` or just manually version for now ??
 # Compare against: https://python-poetry.org/docs/cli/#version !!
-# TODO: Add entrypoint + `README.md` note: https://python-poetry.org/docs/cli/#run
 
 [tool.poetry.scripts]
 app = "python_homework_nlp.main:main"
