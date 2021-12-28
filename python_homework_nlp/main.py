@@ -1,6 +1,6 @@
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
-from python_homework_nlp.common import Content
+from python_homework_nlp.common import Content, timer
 from python_homework_nlp.counter import Counter
 from python_homework_nlp.file_reader import get_folder_contents
 from python_homework_nlp.normaliser import Normaliser
@@ -15,7 +15,6 @@ FILEPATH_LOOKUP = {
 }
 
 # TODO: Sanitise all TODO's!
-# TODO: Test + time Normaliser + Counter!! ie. Core logic time.
 # TODO: Write Retrospective section in `README.md`.
 # TODO: `typeddict` typehints.
 # TODO: Improve efficiency around `original_sentence` lookup to sentence
@@ -54,6 +53,7 @@ def cli_parser() -> Namespace:
     return parsed_args
 
 
+@timer
 def workflow(content_objs: list[Content], parsed_args: Namespace) -> dict:
     """High-level Workflow to run through all of the NLP parsing of the
     supplied text, as well as doing the word counts against files/sentences.
@@ -75,6 +75,7 @@ def workflow(content_objs: list[Content], parsed_args: Namespace) -> dict:
 
 
 # FIXME: re-investigate the correct way to type hint an ABC class explicitly.
+@timer
 def render_output(workflow_output: dict, renderer) -> None:
     """Renders the output from the `Counter` to a more human readable form and
     then writes it to a file in: `build/output/`.
@@ -92,6 +93,7 @@ def render_output(workflow_output: dict, renderer) -> None:
     _renderer.write_to_file(_filepath)
 
 
+@timer
 def main():
     args = cli_parser()
     print(
