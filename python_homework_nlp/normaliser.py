@@ -15,6 +15,12 @@ log = logging.getLogger(__name__)
 download_nltk_data()
 STOPWORDS_EN = stopwords.words("english")
 STOPWORDS_EN.extend(string.punctuation)
+# TODO: strip additional stop words eg.
+# i, 's, and, n't, us, ve, the, but
+#
+# TODO: fix stop words with lemmitisation (or output both types), due to root
+# words like:
+# countri, peopl, promis, chang
 
 
 class Normaliser:

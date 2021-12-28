@@ -13,6 +13,15 @@ FILEPATH_LOOKUP = {
     JsonRenderer: OUTPUT_JSON,
 }
 
+# TODO: Tests for main.py `workflow`.
+# TODO: docstrings in `main.py`.
+# TODO: Sanitise all TODO's!
+# TODO: Test + time Normaliser + Counter!! ie. Core logic time.
+# TODO: Write Retrospective section in `README.md`.
+# TODO: `typeddict` typehints.
+# TODO: Improve efficiency around `original_sentence` lookup to sentence
+# matching. Aim: single loop.
+
 
 def cli_parser():
     pass
