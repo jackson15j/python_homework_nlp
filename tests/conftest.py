@@ -1,5 +1,10 @@
 import pytest
-from python_homework_nlp.common import download_nltk_data
+from python_homework_nlp.common import configure_logging, download_nltk_data
+
+
+@pytest.fixture(autouse=True, scope="session")
+def configure_logs():
+    configure_logging()
 
 
 @pytest.fixture(autouse=True, scope="session")

@@ -100,7 +100,6 @@ class TestNormaliser:
         exp_filtered_tokens = [
             [
                 "arthur",
-                "n't",
                 "feel",
                 "good",
                 "eight",

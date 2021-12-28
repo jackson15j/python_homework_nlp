@@ -1,8 +1,45 @@
 import collections
 import logging
+import logging.config
 import time
 from functools import partial, wraps
+from pathlib import Path
 from nltk import download
+
+LOG_DIR = Path("logs/")
+LOGGING_CONFIG = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "detailed": {
+            "class": "logging.Formatter",
+            "format": ("%(asctime)s %(name)-15s %(levelname)-8s %(message)s"),
+        }
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "DEBUG",
+        },
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": LOG_DIR / "app.log",
+            "mode": "a",
+            "formatter": "detailed",
+        },
+    },
+    "loggers": {
+        "__main__": {
+            "level": "DEBUG",
+            "handlers": ["console", "file"],
+            "propagate": True,
+        },
+    },
+    "root": {
+        "level": "DEBUG",
+        "handlers": ["console", "file"],
+    },
+}
 
 log = logging.getLogger(__name__)
 REQ_NLTK_DATA = (
@@ -11,7 +48,13 @@ REQ_NLTK_DATA = (
 )
 
 
-def timer(func=None, *, debug_print: bool = True):
+def configure_logging(logger_name: str = None):
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    logging.config.dictConfig(LOGGING_CONFIG)
+    return logging.getLogger(logger_name) if logger_name else logging.getLogger()
+
+
+def timer(func=None):
     """Decorator to report the time it takes to run a function.
 
     .. note::
@@ -19,10 +62,9 @@ def timer(func=None, *, debug_print: bool = True):
         See: https://docs.python.org/3.6/library/profile.html.
 
     :param func: function to execute.
-    :pararm bool debug_print: Print debug line if True.
     """
     if func is None:
-        return partial(timer, debug_print=debug_print)
+        return partial(timer)
 
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -30,8 +72,6 @@ def timer(func=None, *, debug_print: bool = True):
         result = func(*args, **kwargs)
         total = time.time() - start
         log.debug("%r took: %ssecs", func, total)
-        if debug_print:
-            print(f"--- DEBUG: {func} took: {total}secs")
         return result
 
     return wrapper

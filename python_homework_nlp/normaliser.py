@@ -1,4 +1,3 @@
-import logging
 import string
 
 from nltk import download
@@ -6,21 +5,48 @@ from nltk import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 
-from python_homework_nlp.common import Content
-from python_homework_nlp.common import download_nltk_data
+from python_homework_nlp.common import (
+    configure_logging,
+    Content,
+    download_nltk_data,
+)
 
-log = logging.getLogger(__name__)
-# TODO: Move to `main()` and call before tests (`conftest.py` is not earlier
+log = configure_logging(__name__)
+# FIXME: Move to `main()` and call before tests (`conftest.py` is not earlier
 # enough due to import side-effects!!).
 download_nltk_data()
+# Manual list of Stemming overrides to clean up the noisy output. Ideally, I
+# should either try one of the many other NLTK Stemming options, or move over
+# to Lemmatization instead.
+STEMMING_OVERRIDES = (
+    "I",
+    "'s",
+    "And",
+    "n't",
+    "us",
+    "ve",
+    "The",
+    "But",
+    "It",
+    "in",
+    "ll",
+    "'re",
+    "'",
+    "''",
+    "``",
+    "'d",
+    "'m",
+    "a",
+)
 STOPWORDS_EN = stopwords.words("english")
 STOPWORDS_EN.extend(string.punctuation)
-# TODO: strip additional stop words eg.
-# i, 's, and, n't, us, ve, the, but
-#
-# TODO: fix stop words with lemmitisation (or output both types), due to root
+STOPWORDS_EN.extend(STEMMING_OVERRIDES)
+# BUG: fix stop words with lemmitisation (or output both types), due to root
 # words like:
 # countri, peopl, promis, chang
+#
+# Mentioned this in the Retrospective section in the `README.md` in more
+# detail.
 
 
 class Normaliser:
