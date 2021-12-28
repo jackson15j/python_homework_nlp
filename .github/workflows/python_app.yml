@@ -47,3 +47,5 @@ jobs:
       run: poetry run python python_homework_nlp/main.py
     - name: System - run App (entrypoint)
       run: poetry run app
+    - name: System - run App (ConsoleRenderer)
+      run: poetry run app --output_to_console
