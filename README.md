@@ -41,10 +41,10 @@ From the [documents] provided:
 
 ## Design
 
-[PlantUml] design to solve the above problem (See: [initial design sketch] in
-[docs/] for my pre-[NLTK] investigation):
+[PlantUml] design to solve the above problem (See: [PlantUml Design (original)]
+& [initial design sketch] in [docs/] for my pre-[NLTK] investigation):
 
-![PlantUml Design][PlantUml Design]
+![PlantUml Design (current)][PlantUml Design (current)]
 
 ### Normaliser
 
@@ -206,7 +206,8 @@ intentionally left in the code.
 [Pipenv]: https://pipenv.pypa.io/en/latest/
 
 [PlantUml]: https://plantuml.com
-[PlantUml Design]: http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jackson15j/python_homework_nlp/main/docs/design.plantuml
+[PlantUml Design (original)]: http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jackson15j/python_homework_nlp/e1d67c16eba3cdf9b9c03dffbdcda4a77919dc6d/docs/design.plantuml
+[PlantUml Design (current)]: http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jackson15j/python_homework_nlp/main/docs/design.plantuml
 [docs/]: docs/
 [initial design sketch]: docs/initial_design_sketch_before_investigating_nltk.jpg
 [collections.Counter]: https://docs.python.org/3/library/collections.html#collections.Counter
