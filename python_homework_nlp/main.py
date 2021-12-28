@@ -1,3 +1,4 @@
+from argparse import ArgumentParser, Namespace
 from pathlib import Path
 from python_homework_nlp.common import Content
 from python_homework_nlp.counter import Counter
@@ -23,17 +24,51 @@ FILEPATH_LOOKUP = {
 # matching. Aim: single loop.
 
 
-def cli_parser():
-    pass
+def cli_parser() -> Namespace:
+    """Parse CLI flags.
+
+    :returns: `argparse.Namesapce` of parsed CLI arguments.
+    """
+    parser = ArgumentParser(description="Python Homework NLP")
+
+    parser.add_argument(
+        "-n",
+        "--num_most_common_words",
+        type=int,
+        help=(
+            "Reduce the rendered output to the <int> most common words. If "
+            "absent, then all words (non-Stopwords/punction) are returned."
+        ),
+        default=None,
+    )
+    parser.add_argument(
+        "-d",
+        "--docs_dir",
+        type=Path,
+        help=(
+            "Directory of `*.txt` files for the application to render results "
+            "from. Default: `test_docs/`."
+        ),
+        default=Path("test_docs/"),
+    )
+
+    parsed_args = parser.parse_args()
+    return parsed_args
 
 
-def workflow(content_objs: list[Content]) -> dict:
-    print("Parsing file contents...")
+def workflow(content_objs: list[Content], parsed_args: Namespace) -> dict:
+    """High-level Workflow to run through all of the NLP parsing of the
+    supplied text, as well as doing the word counts against files/sentences.
+
+    :param list[Content] content_objs` Content instances for each file to process.
+    :param argparse.Namespace: Parsed CLI args.
+    :returns: dict of output to be rendered.
+    """
     for content in content_objs:
         _normaliser = Normaliser(content)
         _normaliser.normalise()
     counter = Counter(content_objs)
-    ret_dict = counter.counter()
+    ret_dict = counter.counter(parsed_args.num_most_common_words)
     # TODO: Should counter change to populate `Context` with word counts ??
     return ret_dict
 
@@ -50,16 +85,15 @@ def render_output(workflow_output: dict, renderer) -> None:
 
 
 def main():
-    # TODO: argparse
-    _ = cli_parser()
-    # TODO: get folder path from `parsed_args`.
-    _input_path = Path("test_docs/")
-    print(f"Gathering `*.txt` file contents from the root of: {_input_path} ...")
-    content_objs = get_folder_contents(_input_path)
+    args = cli_parser()
+    print(
+        f"Gathering `*.txt` file contents from the root of: {args.docs_dir} ..."
+    )
+    content_objs = get_folder_contents(args.docs_dir)
 
     # call main workflow.
-    workflow_output = workflow(content_objs)
     # Render results
+    workflow_output = workflow(content_objs, args)
     # TODO: Update Renderers to use Content ??
     render_output(workflow_output, JsonRenderer)
     render_output(workflow_output, CsvRenderer)
