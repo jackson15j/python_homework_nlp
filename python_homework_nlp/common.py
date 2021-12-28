@@ -116,6 +116,18 @@ class Content:
         collections.Counter()
     )
 
+    def __init__(
+        self,
+        file_name: str = "",
+        original_content: str = "",
+        original_sentences: list[str] = [],
+        original_tokens: list[list[str]] = [],
+    ):
+        self._file_name = file_name
+        self._original_content = original_content
+        self._original_sentences = original_sentences
+        self._original_tokens = original_tokens
+
     @property
     def file_name(self) -> str:
         return self._file_name

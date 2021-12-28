@@ -40,6 +40,9 @@ class Counter:
         :returns: list of matched sentences.
         """
         # TOOD: test
+        # TODO: match up original_sentences with filtered/original_tokens, so
+        # that I can match on the filtered tokens, but return the
+        # original_sentence. Reduce false positives from doing an `in` check !!
         return [x for x in original_sentences if word in x.lower()]
 
     def counter(self, most_common: int = None) -> dict:

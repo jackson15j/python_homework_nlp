@@ -74,8 +74,7 @@ class TestNormaliser:
         ),
     )
     def test_tokenize(self, actual, exp):
-        content = Content()
-        content.original_content = actual
+        content = Content(original_content=actual)
         normaliser = Normaliser(content)
         normaliser._tokenize()
         assert content.original_tokens == exp
@@ -107,8 +106,7 @@ class TestNormaliser:
             ]
         ]
 
-        content = Content()
-        content.original_content = actual
+        content = Content(original_content=actual)
         normaliser = Normaliser(content)
         normaliser.normalise()
         assert content.original_tokens == exp_orig_tokens

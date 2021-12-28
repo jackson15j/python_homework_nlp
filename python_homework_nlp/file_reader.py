@@ -22,8 +22,6 @@ def get_folder_contents(dir_path: Path, sort_files: bool = True) -> list[Content
     for f in files:
         if not f.is_file():
             continue
-        _content = Content()
-        _content.file_name = f.name
-        _content.original_content = f.read_text()
+        _content = Content(file_name=f.name, original_content=f.read_text())
         ret_val.append(_content)
     return ret_val

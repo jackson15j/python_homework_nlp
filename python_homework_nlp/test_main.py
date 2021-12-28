@@ -39,9 +39,7 @@ class TestMain:
         }
 
         args = Namespace(num_most_common_words=None)
-        content = Content()
-        content.file_name = "file1"
-        content.original_content = exp_content
+        content = Content(file_name="file1", original_content=exp_content)
         ret_val = workflow([content], args)
         assert ret_val == exp_dict
 

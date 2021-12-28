@@ -91,14 +91,11 @@ class TestCounter:
         ),
     )
     def test_counter(self, actual, exp, most_common):
-        content = Content()
-        # FIXME: dirty way of using the input_dict structure, that will break
-        # if I have multiple files. Fully transition test over to using
-        # `Content()`!!
-        content.file_name = "file1"
-        content.original_sentences = actual[content.file_name][
-            "original_sentences"
-        ]
+        file_name = "file1"
+        content = Content(
+            file_name=file_name,
+            original_sentences=actual[file_name]["original_sentences"],
+        )
         content.filtered_tokens = actual[content.file_name]["filtered_tokens"]
         counter = Counter([content])
         assert counter.counter(most_common) == exp
