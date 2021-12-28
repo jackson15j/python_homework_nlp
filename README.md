@@ -62,8 +62,11 @@ file/sentence mappings:
       per-file and then all files.
 * Pass 2: Loop through `Content` instances to discover file/sentence mappings
   for each word.
-* [`python_homework_nlp/test_main.py::TestMain::test_workflow_with_real_docs`] takes ~0.7s to run `main.workflow` (`Normaliser` + `Counter`) on my Linux
-  PC with an i7-8700 CPU.
+* [`python_homework_nlp/test_main.py::TestMain::test_workflow_with_real_docs`]
+  takes:
+    * ~0.7s to run `main.workflow` (`Normaliser` + `Counter`) on my Linux PC
+      with an i7-8700 CPU.
+    * ~0.96s in CI (eg. [Github Action: Python Application #33]).
 
 Pros:
 
@@ -214,6 +217,7 @@ intentionally left in the code.
 [Exercise]: #exercise
 [`python_homework_nlp/test_main.py::TestMain::test_workflow_with_real_docs`]: tests/test_main.py
 [functools.lru_cache]: https://docs.python.org/3/library/functools.html#functools.lru_cache
+[Github Action: Python Application #33]: https://github.com/jackson15j/python_homework_nlp/runs/4651870283?check_suite_focus=true
 
 [PyPA: setuptools_scm]: https://github.com/pypa/setuptools_scm/
 [mypy]: mypy-lang.org
