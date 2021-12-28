@@ -23,12 +23,7 @@ class CsvRenderer(BaseRenderer):
         # Create directories if doesn't exist.
         filepath.parent.mkdir(parents=True, exist_ok=True)
 
-        fieldnames = [
-            "Word (Total Occurrences)",
-            "Documents",
-            "Sentences containing the word",
-        ]
         with open(str(filepath), "w", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow(fieldnames)
-            writer.writerows(self._rendered_output)
+            writer.writerow(self.field_names)
+            writer.writerows(self.rendered_output)

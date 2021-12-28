@@ -37,9 +37,11 @@ package App {
                         +render()
                         +write_to_file()
                 }
+                class ConsoleRenderer
                 class CsvRenderer
                 class JsonRenderer
-                class HtmlRenderer #line.dashed
+                class HtmlRenderer
+                class MarkdownRenderer
         }
 }
 
@@ -49,12 +51,15 @@ Content *-[dotted]- Counter
 main::main -right->"1" FileReader
 main::workflow -->"2" Normaliser
 main::workflow -->"3" Counter
+main::workflow -->"4" ConsoleRenderer
 main::workflow -->"4" CsvRenderer
 main::workflow -->"4" HtmlRenderer
 main::workflow -->"4" JsonRenderer
+BaseRenderer <|-[dotted]- ConsoleRenderer
 BaseRenderer <|-[dotted]- CsvRenderer
 BaseRenderer <|-[dotted]- HtmlRenderer
 BaseRenderer <|-[dotted]- JsonRenderer
+BaseRenderer <|-[dotted]- MarkdownRenderer
 FileReader -[hidden]left-> Normaliser
 Normaliser -[hidden]left-> Counter
 
@@ -93,6 +98,10 @@ end note
 
 note bottom of Counter
         Count of each unique word with file/sentence recorded.
+end note
+
+note bottom of ConsoleRenderer
+        CLI flag: ``--output_to_console`` to enable.
 end note
 
 note bottom of CsvRenderer

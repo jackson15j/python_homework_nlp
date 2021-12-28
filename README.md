@@ -181,6 +181,7 @@ intentionally left in the code.
    * TypeHint an ABC class correctly.
    * [NLTK] Data download singleton + remove `normaliser.py` import
      side-effect.
+   * Bold special word in the sentence.
 * Add [tox] for matrix building/testing of the application against python
   versions locally. **NOTE:** negated by the matrix building in CI
   (`python_app` Github Action).
@@ -197,6 +198,14 @@ intentionally left in the code.
 * [NLTK]: investigate best practices for managing [NLTK] Data in Production
   code. eg. gathering data dependencies at build-time vs run-time. Packing data
   into built wheel or not?
+* Using frameworks for the Renderers. eg.
+    * `HtmlRenderer` - [Django] (if I was converting over to also use models
+      instead of `Content` and/or `Counter`'s OutputtDict. Negating
+      on-disk/in-memory hits), [Python-Markdown] (Convert markdown-to-html).
+    * `ConsoleRenderer` - I know there are TUI/CLI libraries in multiple
+      languages to easily do frames/tables in a console.
+
+
 [documents]: test_docs/
 
 [NLTK]: https://www.nltk.org/
@@ -223,3 +232,5 @@ intentionally left in the code.
 [mypy]: mypy-lang.org
 [Alternative Design Ideas]: #alternative-design-ideas
 [tox]: https://tox.wiki/en/latest/index.html
+[Django]: https://www.djangoproject.com
+[Python-Markdown]: https://python-markdown.github.io
