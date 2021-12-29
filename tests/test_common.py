@@ -9,7 +9,7 @@ class TestCommon:
         (
             ("file_name", ""),
             ("original_content", ""),
-            ("_sentences", []),
+            ("sentences", []),
             ("filtered_collections_counters", []),
             ("filtered_collections_counter_total", collections.Counter()),
         ),

@@ -106,6 +106,7 @@ class Sentence:
     filtered_tokens: list[str] = field(init=False)
 
 
+@dataclass
 class Content:
     """Container class for all transformations done against the text from a
     file.
@@ -115,68 +116,20 @@ class Content:
         passes through the App code!!
     """
 
-    _file_name: str = ""
-    _original_content: str = ""
-    _sentences: list[Sentence] = []
-    _filtered_collections_counters: list[collections.Counter] = []
-    _filtered_collections_counter_total: collections.Counter = (
-        collections.Counter()
+    file_name: str = ""
+    original_content: str = ""
+    sentences: list[Sentence] = field(default_factory=list)
+    filtered_collections_counters: list[collections.Counter] = field(
+        default_factory=list, init=False, repr=False
+    )
+    filtered_collections_counter_total: collections.Counter = field(
+        default_factory=collections.Counter, init=False, repr=False
     )
 
-    def __init__(
-        self,
-        file_name: str = "",
-        original_content: str = "",
-        sentences: list[Sentence] = [],
-    ):
-        self._file_name = file_name
-        self._original_content = original_content
-        self._sentences = sentences
-
-    @property
-    def file_name(self) -> str:
-        return self._file_name
-
-    @file_name.setter
-    def file_name(self, value) -> None:
-        self._file_name = value
-
-    @property
-    def original_content(self) -> str:
-        return self._original_content
-
-    @original_content.setter
-    def original_content(self, value) -> None:
-        self._original_content = value
-
-    @property
-    def sentences(self) -> list[Sentence]:
-        return self._sentences
-
-    @sentences.setter
-    def sentences(self, value) -> None:
-        self._sentences = value
-
     def update_collections_counters(self):
-        self._filtered_collections_counters = [
+        self.filtered_collections_counters = [
             collections.Counter(x.filtered_tokens) for x in self.sentences
         ]
-        self._filtered_collections_counter_total = sum_collection_counters(
-            self._filtered_collections_counters
+        self.filtered_collections_counter_total = sum_collection_counters(
+            self.filtered_collections_counters
         )
-
-    @property
-    def filtered_collections_counters(self) -> list[collections.Counter]:
-        """A list of `collections.Counter` instances with all words and their
-        respective totals for the `filtered__tokens`.
-        ie. a Counter for each sentence of tokens.
-        """
-        return self._filtered_collections_counters
-
-    @property
-    def filtered_collections_counter_total(self) -> collections.Counter:
-        """A `collections.Counter` instance that totals all words and their
-        respective totals for the `filtered__tokens`.
-        ie. a Counter for all tokens in the file.
-        """
-        return self._filtered_collections_counter_total
