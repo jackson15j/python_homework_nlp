@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any
+from python_homework_nlp.counter import MatchData
 
 
 class BaseRenderer(ABC):
@@ -11,8 +12,8 @@ class BaseRenderer(ABC):
         "Sentences containing the word",
     )
 
-    def __init__(self, input_dict: dict):
-        self.input_dict = input_dict
+    def __init__(self, input_dict: dict[str, MatchData]):
+        self.input_dict: dict[str, MatchData] = input_dict
 
     @abstractmethod
     def render(self):

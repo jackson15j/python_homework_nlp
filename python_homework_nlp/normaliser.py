@@ -9,6 +9,7 @@ from python_homework_nlp.common import (
     configure_logging,
     Content,
     download_nltk_data,
+    Sentence,
 )
 
 log = configure_logging(__name__)
@@ -75,37 +76,41 @@ class Normaliser:
         3. Stem words.
         """
         self._tokenize()
-        _filtered_tokens = [
-            self._get_tokens_without_stopwords(x)
-            for x in self.content.original_tokens
-        ]
-        self.content.filtered_tokens = [
-            self._get_stems(x) for x in _filtered_tokens
-        ]
+        for sentence in self.content.sentences:
+            _filtered_tokens = self._get_tokens_without_stopwords(
+                sentence.original_tokens
+            )
+            sentence.filtered_tokens = self._get_stems(_filtered_tokens)
+        self.content.update_collections_counters()
 
     def _tokenize(self) -> None:
         """Convert a block of text into a nested list of sentences and then a
         nested list of tokens.
         """
         # Requires: `nltk.download('punkt')`
+        _sentences = []
         try:
-            self.content.original_sentences = sent_tokenize(
-                self.content.original_content
-            )
+            _sentences = sent_tokenize(self.content.original_content)
         except LookupError as e:
             # TOOD: switch to upfront download/gathering of NLTK Data, to simplify
             # these functions. Call:
             # `python_homework_nlp.common.download_nltk_data` from `main()`.
             log.debug("Tokenize exception: %r", e)
             download("punkt")
-            self.content.original_sentences = sent_tokenize(
-                self.content.original_content
-            )
+            _sentences = sent_tokenize(self.content.original_content)
 
-        self.content.original_tokens = [
-            word_tokenize(sentence)
-            for sentence in self.content.original_sentences
-        ]
+        _sentence_objs: list[Sentence] = []
+        for sentence in _sentences:
+            _word_tokens = word_tokenize(sentence)
+            _word_tokens = [x.lower() for x in _word_tokens]
+            _sentence_objs.append(
+                Sentence(
+                    file_name=self.content.file_name,
+                    original_sentence=sentence,
+                    original_tokens=_word_tokens,
+                )
+            )
+        self.content.sentences = _sentence_objs
 
     @staticmethod
     def _get_tokens_without_stopwords(
