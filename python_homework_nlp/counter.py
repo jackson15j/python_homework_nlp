@@ -1,4 +1,11 @@
+from typing_extensions import TypedDict
 from python_homework_nlp.common import Content, sum_collection_counters, Sentence
+
+
+class MatchData(TypedDict):
+    count: int
+    matches: list[str]
+    files: list[str]
 
 
 class Counter:
@@ -11,13 +18,12 @@ class Counter:
     def __init__(self, content_objs: list[Content]) -> None:
         self.content_objs = content_objs
 
-    def _get_matches(self, word: str) -> dict:
+    def _get_matches(self, word: str) -> tuple[list[str], list[str]]:
         """Returns all files + sentences that match a given word.
 
         :param str word: word to find matches for.
-        :returns: dict of: {"matches": <list>, "files": <list>}
+        :returns: tuple of: ([<matched_sentences>], [<files>])
         """
-        # TOOD: test
         _matched_files = []
         _matched_sentences = []
         for content in self.content_objs:
@@ -26,7 +32,7 @@ class Counter:
                 _matched_files.append(content.file_name)
                 _matched_sentences.extend(_matches)
 
-        return {"matches": _matched_sentences, "files": _matched_files}
+        return (_matched_sentences, _matched_files)
 
     @staticmethod
     def _get_matches_by_word(word: str, sentences: list[Sentence]) -> list:
@@ -36,8 +42,6 @@ class Counter:
         :param list orig_sentences: List of sentences to find matches in.
         :returns: list of matched sentences.
         """
-        # TODO: test
-        #
         # Match up original_sentences with filtered/original_tokens, so
         # that I can match on the filtered tokens, but return the
         # original_sentence. Reduce false positives from doing an `in` check !!
@@ -45,7 +49,7 @@ class Counter:
             x.original_sentence for x in sentences if word in x.filtered_tokens
         ]
 
-    def counter(self, most_common: int = None) -> dict:
+    def counter(self, most_common: int = None) -> dict[str, MatchData]:
         """Counts number of words duplicate words in a filtered tokens list +
         generates the return structure.
 
@@ -57,16 +61,18 @@ class Counter:
         * `matches` = list of matched sentences.
         * `files` = list of filenames with matched sentences.
         """
-        # TODO: reduce the number of loops to generate the `ret_dict`!!
         ret_dict = {}
 
         [x.update_collections_counters() for x in self.content_objs]
         _total_counter = sum_collection_counters(
             [x.filtered_collections_counter_total for x in self.content_objs]
         )
-        ret_dict = {
-            k: {"count": v} for k, v in _total_counter.most_common(most_common)
-        }
-        for _word in ret_dict.keys():
-            ret_dict[_word].update(self._get_matches(_word))
+        for _word, _count in _total_counter.most_common(most_common):
+            _matches, _files = self._get_matches(_word)
+            _match_data: MatchData = {
+                "count": _count,
+                "matches": _matches,
+                "files": _files,
+            }
+            ret_dict[_word] = _match_data
         return ret_dict

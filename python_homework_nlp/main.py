@@ -26,8 +26,6 @@ FILEPATH_LOOKUP = {
     MarkdownRenderer: OUTPUT_MARKDOWN,
 }
 
-# TODO: `typeddict` typehints.
-
 
 def cli_parser() -> Namespace:
     """Parse CLI flags.
