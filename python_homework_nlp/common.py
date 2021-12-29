@@ -2,6 +2,7 @@ import collections
 import logging
 import logging.config
 import time
+from dataclasses import dataclass, field
 from functools import partial, wraps
 from pathlib import Path
 from nltk import download
@@ -97,6 +98,14 @@ def sum_collection_counters(
     return total_counter
 
 
+@dataclass
+class Sentence:
+    file_name: str
+    original_sentence: str
+    original_tokens: list[str]
+    filtered_tokens: list[str] = field(init=False)
+
+
 class Content:
     """Container class for all transformations done against the text from a
     file.
@@ -108,9 +117,7 @@ class Content:
 
     _file_name: str = ""
     _original_content: str = ""
-    _original_sentences: list[str] = []
-    _original_tokens: list[list[str]] = []
-    _filtered_tokens: list[list[str]] = []
+    _sentences: list[Sentence] = []
     _filtered_collections_counters: list[collections.Counter] = []
     _filtered_collections_counter_total: collections.Counter = (
         collections.Counter()
@@ -120,13 +127,11 @@ class Content:
         self,
         file_name: str = "",
         original_content: str = "",
-        original_sentences: list[str] = [],
-        original_tokens: list[list[str]] = [],
+        sentences: list[Sentence] = [],
     ):
         self._file_name = file_name
         self._original_content = original_content
-        self._original_sentences = original_sentences
-        self._original_tokens = original_tokens
+        self._sentences = sentences
 
     @property
     def file_name(self) -> str:
@@ -145,30 +150,16 @@ class Content:
         self._original_content = value
 
     @property
-    def original_sentences(self) -> list[str]:
-        return self._original_sentences
+    def sentences(self) -> list[Sentence]:
+        return self._sentences
 
-    @original_sentences.setter
-    def original_sentences(self, value) -> None:
-        self._original_sentences = value
+    @sentences.setter
+    def sentences(self, value) -> None:
+        self._sentences = value
 
-    @property
-    def original_tokens(self) -> list[list[str]]:
-        return self._original_tokens
-
-    @original_tokens.setter
-    def original_tokens(self, value) -> None:
-        self._original_tokens = value
-
-    @property
-    def filtered_tokens(self) -> list[list[str]]:
-        return self._filtered_tokens
-
-    @filtered_tokens.setter
-    def filtered_tokens(self, value) -> None:
-        self._filtered_tokens = value
+    def update_collections_counters(self):
         self._filtered_collections_counters = [
-            collections.Counter(x) for x in value
+            collections.Counter(x.filtered_tokens) for x in self.sentences
         ]
         self._filtered_collections_counter_total = sum_collection_counters(
             self._filtered_collections_counters

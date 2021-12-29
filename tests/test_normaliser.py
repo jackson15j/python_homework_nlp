@@ -23,18 +23,18 @@ class TestNormaliser:
         "actual,exp,stop_words",
         (
             (
-                ["This", "is", "a", "sentence", "with", "stopwords", "."],
-                ["This", "sentence", "stopwords", "."],
+                ["this", "is", "a", "sentence", "with", "stopwords", "."],
+                ["sentence", "stopwords", "."],
                 stopwords.words("english"),
             ),
             (
-                ["This", "is", "a", "sentence", "with", "stopwords", "."],
-                ["This", "sentence", "stopwords"],
+                ["this", "is", "a", "sentence", "with", "stopwords", "."],
+                ["sentence", "stopwords"],
                 None,
             ),
             (
-                ["This", "is", "a", "sentence", "with", "stopwords", "."],
-                ["This", "sentence", "stopwords"],
+                ["this", "is", "a", "sentence", "with", "stopwords", "."],
+                ["sentence", "stopwords"],
                 STOPWORDS_EN,
             ),
         ),
@@ -55,7 +55,7 @@ class TestNormaliser:
                 "Arthur didn't feel good at eight o'clock.",
                 [
                     [
-                        "Arthur",
+                        "arthur",
                         "did",
                         "n't",
                         "feel",
@@ -69,7 +69,7 @@ class TestNormaliser:
             ),
             (
                 "First sentence. Second sentence.",
-                [["First", "sentence", "."], ["Second", "sentence", "."]],
+                [["first", "sentence", "."], ["second", "sentence", "."]],
             ),
         ),
     )
@@ -77,39 +77,36 @@ class TestNormaliser:
         content = Content(original_content=actual)
         normaliser = Normaliser(content)
         normaliser._tokenize()
-        assert content.original_tokens == exp
+        for _id, _exp in enumerate(exp):
+            assert content.sentences[_id].original_tokens == _exp
         # Verify that we are using Content by reference!!
         assert normaliser.content == content
 
     def test_normalise(self):
         actual = "Arthur didn't feel good at eight o'clock."
         exp_orig_tokens = [
-            [
-                "Arthur",
-                "did",
-                "n't",
-                "feel",
-                "good",
-                "at",
-                "eight",
-                "o'clock",
-                ".",
-            ]
+            "arthur",
+            "did",
+            "n't",
+            "feel",
+            "good",
+            "at",
+            "eight",
+            "o'clock",
+            ".",
         ]
         exp_filtered_tokens = [
-            [
-                "arthur",
-                "feel",
-                "good",
-                "eight",
-                "o'clock",
-            ]
+            "arthur",
+            "feel",
+            "good",
+            "eight",
+            "o'clock",
         ]
 
         content = Content(original_content=actual)
         normaliser = Normaliser(content)
         normaliser.normalise()
-        assert content.original_tokens == exp_orig_tokens
-        assert content.filtered_tokens == exp_filtered_tokens
+        assert content.sentences[0].original_tokens == exp_orig_tokens
+        assert content.sentences[0].filtered_tokens == exp_filtered_tokens
         # Verify that we are using Content by reference!!
         assert normaliser.content == content

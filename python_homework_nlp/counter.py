@@ -1,4 +1,4 @@
-from python_homework_nlp.common import Content, sum_collection_counters
+from python_homework_nlp.common import Content, sum_collection_counters, Sentence
 
 
 class Counter:
@@ -21,29 +21,29 @@ class Counter:
         _matched_files = []
         _matched_sentences = []
         for content in self.content_objs:
-            _matches = Counter._get_matches_by_word(
-                word, content.original_sentences
-            )
+            _matches = Counter._get_matches_by_word(word, content.sentences)
             if _matches:
                 _matched_files.append(content.file_name)
                 _matched_sentences.extend(_matches)
 
-        # TODO: Update `Content` to have these fields, or move out to `Renderer`??
         return {"matches": _matched_sentences, "files": _matched_files}
 
     @staticmethod
-    def _get_matches_by_word(word: str, original_sentences: list[str]) -> list:
+    def _get_matches_by_word(word: str, sentences: list[Sentence]) -> list:
         """Returns all sentences that match a given word.
 
         :param str word: word to find matches for.
         :param list orig_sentences: List of sentences to find matches in.
         :returns: list of matched sentences.
         """
-        # TOOD: test
-        # TODO: match up original_sentences with filtered/original_tokens, so
+        # TODO: test
+        #
+        # Match up original_sentences with filtered/original_tokens, so
         # that I can match on the filtered tokens, but return the
         # original_sentence. Reduce false positives from doing an `in` check !!
-        return [x for x in original_sentences if word in x.lower()]
+        return [
+            x.original_sentence for x in sentences if word in x.filtered_tokens
+        ]
 
     def counter(self, most_common: int = None) -> dict:
         """Counts number of words duplicate words in a filtered tokens list +
@@ -60,6 +60,7 @@ class Counter:
         # TODO: reduce the number of loops to generate the `ret_dict`!!
         ret_dict = {}
 
+        [x.update_collections_counters() for x in self.content_objs]
         _total_counter = sum_collection_counters(
             [x.filtered_collections_counter_total for x in self.content_objs]
         )

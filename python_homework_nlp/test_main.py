@@ -21,11 +21,6 @@ class TestMain:
                 "files": ["file1"],
                 "matches": ["Some made up words to test with."],
             },
-            "some": {
-                "count": 1,
-                "files": ["file1"],
-                "matches": ["Some made up words to test with."],
-            },
             "test": {
                 "count": 1,
                 "files": ["file1"],
