@@ -1,3 +1,4 @@
+"""Common static low-level functions."""
 import collections
 import logging
 import logging.config
@@ -5,6 +6,8 @@ import time
 from dataclasses import dataclass, field
 from functools import partial, wraps
 from pathlib import Path
+from typing import Union
+
 from nltk import download
 
 LOG_DIR = Path("logs/")
@@ -49,7 +52,7 @@ REQ_NLTK_DATA = (
 )
 
 
-def configure_logging(logger_name: str = None):
+def configure_logging(logger_name: Union[str, None] = None):
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     logging.config.dictConfig(LOGGING_CONFIG)
     return logging.getLogger(logger_name) if logger_name else logging.getLogger()

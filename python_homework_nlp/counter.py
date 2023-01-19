@@ -1,3 +1,6 @@
+"""2-Pass counter to return filtered tokens of counts + file/sentence mappings.
+"""
+from typing import Union
 from typing_extensions import TypedDict
 from python_homework_nlp.common import Content, sum_collection_counters, Sentence
 
@@ -49,7 +52,9 @@ class Counter:
             x.original_sentence for x in sentences if word in x.filtered_tokens
         ]
 
-    def counter(self, most_common: int = None) -> dict[str, MatchData]:
+    def counter(
+        self, most_common: Union[int, None] = None
+    ) -> dict[str, MatchData]:
         """Counts number of words duplicate words in a filtered tokens list +
         generates the return structure.
 
