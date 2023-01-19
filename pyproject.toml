@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "python_homework_nlp"
-version = "0.3.0"
+version = "0.0.0"
 description = "Python homework exercise to pull out words of interest from text files via NLP."
 readme = "README.md"
 license = "GPL-3.0-only"
@@ -36,9 +36,23 @@ pytest-html = "*"
 [tool.poetry.scripts]
 app = "python_homework_nlp.main:main"
 
+[tool.poetry-dynamic-versioning]
+# Need to explicitly install the plugin:
+#
+# * https://github.com/mtkennerly/poetry-dynamic-versioning.
+# * `poetry self add "poetry-dynamic-versioning[plugin]"`.
+enable = true
+# Explicit duplicate of the default pattern but remove the `v` prefix.
+pattern = '''
+(?x)                                                        (?# ignore whitespace)
+    ^((?P<epoch>\d+)!)?(?P<base>\d+(\.\d+)*)                   (?# 1.2.3 or 1!2000.1.2)
+    ([-._]?((?P<stage>[a-zA-Z]+)[-._]?(?P<revision>\d+)?))?     (?# b0)
+    (\+(?P<tagged_metadata>.+))?$                               (?# +linux)
+'''
+
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry_dynamic_versioning.backend"
 
 [tool.black]
 line-length = 82

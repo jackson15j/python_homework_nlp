@@ -25,12 +25,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
     - name: Pre-Req. - Install poetry
       run: curl -sSL https://install.python-poetry.org | python3 -
+    - name: Pre-Req. - Install poetry-dynamic-versioning
+      run: poetry self add "poetry-dynamic-versioning[plugin]"
     - name: Deps - Install dependencies
       run: poetry install
     - name: Checkers - pycodestyle

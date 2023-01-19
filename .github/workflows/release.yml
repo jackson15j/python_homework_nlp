@@ -10,12 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: Set up Python 3.11
       uses: actions/setup-python@v2
       with:
         python-version: "3.11"
     - name: Pre-Req. - Install poetry
       run: curl -sSL https://install.python-poetry.org | python3 -
+    - name: Pre-Req. - Install poetry-dynamic-versioning
+      run: poetry self add "poetry-dynamic-versioning[plugin]"
     - name: Deps - Install dependencies
       run: poetry install
     - name: Build - Python Package
