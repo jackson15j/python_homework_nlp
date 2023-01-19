@@ -139,6 +139,9 @@ $
 
 * Pre-req.: `curl -sSL https://install.python-poetry.org | python3 -` [Poetry
   Docs: install].
+* _potentially:_ Explicitly install the git versioning plugin:
+    * https://github.com/mtkennerly/poetry-dynamic-versioning.
+    * `poetry self add "poetry-dynamic-versioning[plugin]"`.
 * Install dependencies: `poetry install`.
 * Run tests: `poetry run pytest`.
 * Build Wheel: `poetry build`.
