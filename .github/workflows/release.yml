@@ -4,6 +4,10 @@ on:
   push:
     tags:
     - '*'
+  workflow_run:
+    workflows: ["Python application"]
+    types:
+      - completed
 
 jobs:
   release:
